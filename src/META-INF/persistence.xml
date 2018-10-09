@@ -6,6 +6,20 @@
     <persistence-unit name="Heimdall">
 
         <class>br.com.heimdall.model.DefaultEntity</class>
+        <class>br.com.heimdall.model.Curso</class>
+        <class>br.com.heimdall.model.DefaultEnum</class>
+        <class>br.com.heimdall.model.Disciplina</class>
+        <class>br.com.heimdall.model.Lotacao</class>
+        <class>br.com.heimdall.model.MatrizCurricular</class>
+        <class>br.com.heimdall.model.MovimentoLotacao</class>
+        <class>br.com.heimdall.model.Pessoa</class>
+        <class>br.com.heimdall.model.Professor</class>
+        <class>br.com.heimdall.model.Proposito</class>
+        <class>br.com.heimdall.model.Responsavel</class>
+        <class>br.com.heimdall.model.Sala</class>
+        <class>br.com.heimdall.model.Semestre</class>
+        <class>br.com.heimdall.model.Telefone</class>
+        <class>br.com.heimdall.model.Usuario</class>
 
         <properties>
             <property name="javax.persistence.jdbc.url"
