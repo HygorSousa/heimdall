@@ -23,6 +23,10 @@ public class MatrizCurricular extends DefaultEntity<MatrizCurricular> {
     @JoinColumn(name = "idprofessor")
     private Professor professor;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "idsemestre")
+    private Semestre semestre;
+
     @Override
     public Integer getId() {
         return id;
@@ -63,5 +67,13 @@ public class MatrizCurricular extends DefaultEntity<MatrizCurricular> {
 
     public void setProfessor(Professor professor) {
         this.professor = professor;
+    }
+
+    public Semestre getSemestre() {
+        return semestre;
+    }
+
+    public void setSemestre(Semestre semestre) {
+        this.semestre = semestre;
     }
 }

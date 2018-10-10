@@ -24,4 +24,11 @@ public class Responsavel extends DefaultEntity<Responsavel> {
         this.id = id;
     }
 
+    public Pessoa getPessoa() {
+        return pessoa;
+    }
+
+    public void setPessoa(Pessoa pessoa) {
+        this.pessoa = pessoa;
+    }
 }

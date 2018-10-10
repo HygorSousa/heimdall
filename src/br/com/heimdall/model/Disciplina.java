@@ -12,6 +12,8 @@ public class Disciplina extends DefaultEntity<Disciplina> {
 
     private String nome;
 
+    private Boolean ativo;
+
     @ManyToMany(mappedBy = "curso")
     private List<Curso> listaCursos;
 
@@ -31,6 +33,14 @@ public class Disciplina extends DefaultEntity<Disciplina> {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public Boolean getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(Boolean ativo) {
+        this.ativo = ativo;
     }
 
     public List<Curso> getListaCursos() {

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/template/template.xhtml">
+    <ui:define name="conteudo">
+        <style type="text/css">
+            div.ui-material {
+                margin-top: 20px;
+            }
+
+            input:-webkit-autofill {
+                -webkit-box-shadow: 0 0 0 30px white inset;
+            }
+        </style>
+        <h1 class="text-center">.: Cadrastro de Matrizes :.</h1>
+        <div class="ui-g-12">
+            <p:panel styleClass="card no-border" toggleable="true"
+                     toggleSpeed="300">
+
+                <h:form id="formDados">
+
+                    <div style="text-align: left;"
+                         class="ui-fluid #{layoutMB.flat ? 'ui-flat':''} ">
+                        <p:panelGrid id="pgDados" columns="2"
+                                     columnClasses="ui-grid-col-6, ui-grid-col-6" layout="grid"
+                                     styleClass="ui-fluid card">
+                            <h:panelGroup>
+                                <div class="ui-material">
+                                    <p:autoComplete id="disciplinaAutoComplete" forceSelection="true"
+                                                    completeMethod="#{matrizCurricularController.completeDisciplina}"
+                                                    var="disciplina" itemLabel="#{disciplina.nome}"
+                                                    itemValue="#{disciplina}"
+                                                    dropdown="true" required="true"
+                                                    value="#{matrizCurricularController.entity.disciplina}">
+                                        <p:ajax update="disciplinaAutoComplete" event="query" global="false"/>
+                                        <p:ajax event="itemSelect" global="false" update="disciplinaAutoComplete"/>
+                                    </p:autoComplete>
+                                    <p:outputLabel for="disciplinaAutoComplete" value="Disciplina"/>
+                                </div>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <div class="ui-material">
+                                    <p:inputText id="qntHorasInput" required="true"
+                                                 value="#{matrizCurricularController.entity.quantidadeHoras}"/>
+                                    <p:outputLabel for="qntHorasInput" value="Quantidade de Horas"/>
+                                </div>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <div class="ui-material">
+                                    <p:inputText id="anoInput" required="true"
+                                                 value="#{matrizCurricularController.entity.semestre.ano}"/>
+                                    <p:outputLabel for="anoInput" value="Ano"/>
+                                </div>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <div class="ui-material">
+                                    <p:selectOneMenu id="tipoSemestreSelect" required="true"
+                                                     value="#{matrizCurricularController.entity.semestre.tipoSemestre}">
+                                        <f:selectItems
+                                                value="#{matrizCurricularController.entity.semestre.tipoSemestreValues}"
+                                                var="tipo"
+                                                itemValue="#{tipo}"
+                                                itemLabel="#{tipo.label}"/>
+                                    </p:selectOneMenu>
+                                    <p:outputLabel value="Semestre" for="tipoSemestreSelect"/>
+                                </div>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <div class="ui-material">
+                                    <p:autoComplete id="professorAutoComplete" forceSelection="true"
+                                                    completeMethod="#{matrizCurricularController.completeProfessor}"
+                                                    var="professor" itemLabel="#{professor.nome}"
+                                                    itemValue="#{professor}"
+                                                    dropdown="true" required="true"
+                                                    value="#{matrizCurricularController.entity.professor}">
+                                        <p:ajax update="professorAutoComplete" event="query" global="false"/>
+                                        <p:ajax event="itemSelect" global="false" update="professorAutoComplete"/>
+                                    </p:autoComplete>
+                                    <p:outputLabel for="professorAutoComplete" value="Professor"/>
+                                </div>
+                            </h:panelGroup>
+
+                        </p:panelGrid>
+                        <div class="text-center ui-material">
+                            <p:commandButton value="Incluir" icon="fa fa-plus"
+                                             style="width: auto" styleClass="btn-primary"/>
+                            <p:commandButton value="Alterar" icon="ui-icon-plus"
+                                             style="width: auto" styleClass="btn-primary"/>
+                            <p:commandButton value="Excluir" icon="ui-icon-plus"
+                                             style="width: auto" styleClass="btn-primary"/>
+                            <p:commandButton value="Limpar" icon="ui-icon-plus"
+                                             style="width: auto" styleClass="btn-primary"/>
+                        </div>
+                    </div>
+                </h:form>
+            </p:panel>
+        </div>
+    </ui:define>
+</ui:composition>
+</html>

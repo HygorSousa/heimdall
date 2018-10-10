@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/template/template.xhtml">
+    <ui:define name="conteudo">
+        <style type="text/css">
+            div.ui-material {
+                margin-top: 20px;
+            }
+
+            input:-webkit-autofill {
+                -webkit-box-shadow: 0 0 0 30px white inset;
+            }
+        </style>
+        <h1 class="text-center">.: Lotações de Salas :.</h1>
+        <div class="ui-g-12">
+            <p:panel styleClass="card no-border" toggleable="true"
+                     toggleSpeed="300">
+
+                <h:form id="formDados">
+
+                    <div class="ui-fluid #{layoutMB.flat ? 'ui-flat':''} ">
+                        <p:panelGrid id="pgDados" columns="2"
+                                     columnClasses="ui-grid-col-6, ui-grid-col-6" layout="grid"
+                                     styleClass="ui-fluid card">
+                            <h:panelGroup>
+                                <div class="ui-material">
+                                    <p:selectOneMenu id="salaSelect" required="true"
+                                                     value="#{lotacaoController.entity.sala}">
+                                        <f:selectItems
+                                                value="#{lotacaoController.listaSalas}"
+                                                var="sala"
+                                                itemValue="#{sala}"
+                                                itemLabel="#{sala.tipoSala.label} - #{sala.numeroSala}"/>
+                                    </p:selectOneMenu>
+                                    <p:outputLabel value="Sala" for="salaSelect"/>
+                                </div>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <div class="ui-material">
+                                    <p:autoComplete id="responsavelAutoComplete" forceSelection="true"
+                                                    completeMethod="#{lotacaoController.completeResponsavel}"
+                                                    var="responsavel" itemLabel="#{responsavel.nome}"
+                                                    itemValue="#{responsavel}"
+                                                    dropdown="true" required="true"
+                                                    value="#{lotacaoController.entity.responsavel}">
+                                        <p:ajax update="responsavelAutoComplete" event="query" global="false"/>
+                                        <p:ajax event="itemSelect" global="false" update="responsavelAutoComplete"/>
+                                    </p:autoComplete>
+                                    <p:outputLabel for="responsavelAutoComplete" value="Responsável"/>
+                                </div>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <div class="ui-material icon-left">
+                                    <p:calendar id="dataEntradaInput" showOn="button" required="true"
+                                                value="#{lotacaoController.entity.dataEntrada}"
+                                                pattern="dd/MM/yyyy" mask="true">
+                                        <p:ajax event="dateSelect" global="false" onstart="adminMaterial()"/>
+                                    </p:calendar>
+                                    <p:outputLabel for="dataEntradaInput" value="Data de Entrada"/>
+                                </div>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <div class="ui-material icon-left">
+                                    <p:calendar id="dataSaidaInput" showOn="button" required="true"
+                                                value="#{lotacaoController.entity.dataSaida}"
+                                                pattern="dd/MM/yyyy" mask="true">
+                                        <p:ajax event="dateSelect" global="false" onstart="adminMaterial()"/>
+                                    </p:calendar>
+                                    <p:outputLabel for="dataSaidaInput" value="Data de Saida"/>
+                                </div>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <div class="ui-material icon-left">
+                                    <p:calendar id="horaInicioInput" showOn="button" required="true"
+                                                value="#{lotacaoController.entity.horarioInicio}"
+                                                pattern="hh:mm:ss" mask="true">
+                                        <p:ajax event="dateSelect" global="false" onstart="adminMaterial()"/>
+                                    </p:calendar>
+                                    <p:outputLabel for="horaInicioInput" value="Hoarário de Inicio"/>
+                                </div>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <div class="ui-material">
+                                    <p:inputText id="qntHorasInput" disabled="true"
+                                                 value="#{lotacaoController.entity.quantidadeHoras}"/>
+                                    <p:slider for="qntHorasInput" required="true" animate="true"
+                                              maxValue="4" step="0.25"/>
+                                    <p:outputLabel for="qntHorasInput" value="Quantidade de Horas"/>
+                                </div>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <div class="ui-material">
+                                    <p:selectOneMenu id="tipoPropositoSelect" required="true"
+                                                     value="#{lotacaoController.entity.proposito.tipoProposito}">
+                                        <f:selectItems
+                                                value="#{lotacaoController.entity.proposito.tipoPropositoValues}"
+                                                var="tipo"
+                                                itemValue="#{tipo}"
+                                                itemLabel="#{tipo.label}"/>
+                                    </p:selectOneMenu>
+                                    <p:outputLabel value="Propósito" for="tipoPropositoSelect"/>
+                                </div>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <div class="ui-material">
+                                    <p:inputText id="descricaoInput" required="true"
+                                                 value="#{lotacaoController.entity.proposito.descricao}"/>
+                                    <p:outputLabel for="descricaoInput" value="Descrição"/>
+                                </div>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <div class="ui-material">
+                                    <p:autoComplete id="matrizAutoComplete" forceSelection="true"
+                                                    completeMethod="#{lotacaoController.completeMatrizCurricular}"
+                                                    var="matriz"
+                                                    itemLabel="#{matriz.disciplina.nome} - #{matriz.professor.pessoa.nome}"
+                                                    itemValue="#{matriz}"
+                                                    dropdown="true" required="true"
+                                                    value="#{lotacaoController.entity.proposito.matrizCurricular}">
+                                        <p:ajax update="matrizAutoComplete" event="query" global="false"/>
+                                        <p:ajax event="itemSelect" global="false" update="matrizAutoComplete"/>
+                                    </p:autoComplete>
+                                    <p:outputLabel for="matrizAutoComplete" value="Disciplina"/>
+                                </div>
+                            </h:panelGroup>
+
+                        </p:panelGrid>
+                        <div class="text-center ui-material">
+                            <p:commandButton value="Incluir" icon="fa fa-plus"
+                                             style="width: auto" styleClass="btn-primary"/>
+                            <p:commandButton value="Alterar" icon="ui-icon-plus"
+                                             style="width: auto" styleClass="btn-primary"/>
+                            <p:commandButton value="Excluir" icon="ui-icon-plus"
+                                             style="width: auto" styleClass="btn-primary"/>
+                            <p:commandButton value="Limpar" icon="ui-icon-plus"
+                                             style="width: auto" styleClass="btn-primary"/>
+                        </div>
+                    </div>
+                </h:form>
+            </p:panel>
+        </div>
+    </ui:define>
+</ui:composition>
+</html>

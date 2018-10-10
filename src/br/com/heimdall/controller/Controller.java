@@ -18,13 +18,7 @@ public abstract class Controller<T extends DefaultEntity<T>> implements Serializ
     public T incluir() {
         Repository<T> repository = new Repository<T>(getEntityManager());
         getEntityManager().getTransaction().begin();
-
         T result = repository.save(getEntity());
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         getEntityManager().getTransaction().commit();
         limpar();
         Util.addInfoMessage("Inclusão realizada com sucesso!");
@@ -34,9 +28,7 @@ public abstract class Controller<T extends DefaultEntity<T>> implements Serializ
     public T alterar() {
         Repository<T> repository = new Repository<T>(getEntityManager());
         getEntityManager().getTransaction().begin();
-
         T result = repository.save(getEntity());
-
         getEntityManager().getTransaction().commit();
         limpar();
         Util.addInfoMessage("Alteração realizada com sucesso!");
@@ -46,9 +38,7 @@ public abstract class Controller<T extends DefaultEntity<T>> implements Serializ
     public void remover() {
         Repository<T> repository = new Repository<T>(getEntityManager());
         getEntityManager().getTransaction().begin();
-
         repository.remove(getEntity());
-
         getEntityManager().getTransaction().commit();
         limpar();
         Util.addInfoMessage("Remoção realizada com sucesso!");
