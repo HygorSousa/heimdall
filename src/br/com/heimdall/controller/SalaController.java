@@ -2,7 +2,7 @@ package br.com.heimdall.controller;
 
 import br.com.heimdall.model.Sala;
 
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
 @Named
@@ -15,6 +15,8 @@ public class SalaController extends Controller<Sala> {
 
     @Override
     public Sala getEntity() {
-        return null;
+        if (entity == null)
+            entity = new Sala();
+        return entity;
     }
 }

@@ -3,7 +3,7 @@ package br.com.heimdall.controller;
 import br.com.heimdall.model.Professor;
 import br.com.heimdall.model.Telefone;
 
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
 @Named

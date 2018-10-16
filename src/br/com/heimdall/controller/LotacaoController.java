@@ -5,7 +5,7 @@ import br.com.heimdall.model.Lotacao;
 import br.com.heimdall.model.Professor;
 import br.com.heimdall.model.Sala;
 
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ public class LotacaoController extends Controller<Lotacao> {
         return new ArrayList<>();
     }
 
-    public List<Professor> completeProfessor() {
+    public List<Professor> completeMatrizCurricular() {
         return new ArrayList<>();
     }
 
@@ -32,7 +32,9 @@ public class LotacaoController extends Controller<Lotacao> {
 
     @Override
     public Lotacao getEntity() {
-        return null;
+        if (entity == null)
+            entity = new Lotacao();
+        return entity;
     }
 
     public List<Sala> getListaSalas() {

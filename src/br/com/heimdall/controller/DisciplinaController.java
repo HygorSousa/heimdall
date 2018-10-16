@@ -3,7 +3,7 @@ package br.com.heimdall.controller;
 import br.com.heimdall.model.Curso;
 import br.com.heimdall.model.Disciplina;
 
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import java.util.List;
 

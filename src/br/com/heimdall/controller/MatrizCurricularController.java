@@ -4,7 +4,7 @@ import br.com.heimdall.model.Disciplina;
 import br.com.heimdall.model.MatrizCurricular;
 import br.com.heimdall.model.Professor;
 
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import java.util.ArrayList;
 import java.util.List;
