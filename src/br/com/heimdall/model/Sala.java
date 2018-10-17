@@ -26,6 +26,18 @@ public class Sala extends DefaultEntity<Sala> {
 
     private Integer statusSala;
 
+    public Sala() {
+    }
+
+    public Sala(Integer numeroSala, String descricao, Integer andar, Integer bloco, Integer tipoSala, Integer statusSala) {
+        this.numeroSala = numeroSala;
+        this.descricao = descricao;
+        this.andar = andar;
+        this.bloco = bloco;
+        this.tipoSala = tipoSala;
+        this.statusSala = statusSala;
+    }
+
     @Override
     public Integer getId() {
         return id;
