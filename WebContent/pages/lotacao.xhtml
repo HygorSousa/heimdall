@@ -5,11 +5,11 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:p="http://primefaces.org/ui" template="/template/template.xhtml">
     <ui:define name="conteudo">
-        <h1 class="text-center">.: Lotações de Salas :.</h1>
         <div class="ui-g-12 no-border">
-            <h:form id="form">
+            <h:form id="formDados">
+                <h1 class="text-center">.: Lotações de Salas :.</h1>
                 <div class="ui-fluid #{layoutMB.flat ? 'ui-flat':''} no-border">
-                    <p:panelGrid id="pgDados" columns="2"
+                    <p:panelGrid id="gridDados" columns="2"
                                  columnClasses="ui-grid-col-6, ui-grid-col-6" layout="grid"
                                  styleClass="ui-fluid card no-border">
                         <h:panelGroup>
@@ -29,8 +29,8 @@
                             <div class="ui-material">
                                 <p:autoComplete id="responsavelAutoComplete" forceSelection="true"
                                                 completeMethod="#{lotacaoController.completeResponsavel}"
-                                                var="responsavel" itemLabel="#{responsavel.nome}"
-                                                itemValue="#{responsavel}"
+                                                var="responsavel" itemLabel="#{responsavel.pessoa.nome}"
+                                                itemValue="#{responsavel}" converter="responsavelConverter"
                                                 dropdown="true" required="true"
                                                 value="#{lotacaoController.entity.responsavel}">
                                     <p:ajax update="responsavelAutoComplete" event="query" global="false"/>
@@ -115,14 +115,23 @@
                         </h:panelGroup>
                     </p:panelGrid>
                     <div class="text-center ui-material">
-                        <p:commandButton value="Incluir" icon="fa fa-plus"
-                                         style="width: auto" styleClass="btn-fatal"/>
+                        <p:commandButton id="btnIncluir"
+                                         value="Incluir" icon="fa fa-plus"
+                                         process="@this,gridDados" update="formDados, msgs"
+                                         styleClass="btnAuto btn-fatal"
+                                         actionListener="#{lotacaoController.incluir}"/>
                         <p:commandButton value="Alterar" icon="fa fa-edit"
-                                         style="width: auto" styleClass="btn-fatal"/>
-                        <p:commandButton value="Excluir" icon="fa fa-trash"
-                                         style="width: auto" styleClass="btn-fatal"/>
-                        <p:commandButton value="Limpar" icon="fa fa-clear"
-                                         style="width: auto" styleClass="btn-fatal"/>
+                                         process="@this, gridDados" update="gridDados"
+                                         styleClass="btnAuto btn-fatal"
+                                         actionListener="#{lotacaoController.alterar}"/>
+                        <p:commandButton value="Excluir" icon="fa fa-remove"
+                                         process="@this, gridDados" update="gridDados"
+                                         styleClass="btnAuto btn-fatal"
+                                         actionListener="#{lotacaoController.remover}"/>
+                        <p:commandButton value="Limpar" icon="fa fa-eraser"
+                                         process="@this,gridDados" update="gridDados"
+                                         styleClass="btnAuto btn-fatal"
+                                         actionListener="#{lotacaoController.limpar}"/>
                     </div>
                 </div>
             </h:form>

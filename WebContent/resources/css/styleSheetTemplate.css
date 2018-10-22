@@ -22,6 +22,11 @@ body {
     height: unset !important;
 }
 
+/*noinspection ALL*/
+.wrapper:after {
+    height: -webkit-fill-available;
+}
+
 .wrapper {
     display: grid;
     grid-gap: 0;
@@ -38,7 +43,7 @@ body {
 @media only screen and (min-width: 600px) {
     .wrapper {
         grid-gap: 0;
-        grid-template-columns: 300px auto 300px;
+        grid-template-columns: 20% auto 20%;
         grid-template-areas: "header  header  header" "sidebar content content" "sidebar  footer  footer";
         max-width: 100%;
         padding: 0;
@@ -67,6 +72,11 @@ body {
     height: 30px;
     text-align: center;
     margin: auto !important;
+    position: fixed;
+    bottom: 0;
+    left: auto;
+    right: 0;
+    width: 80%;
 }
 
 .sidebar {

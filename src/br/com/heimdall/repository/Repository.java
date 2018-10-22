@@ -1,25 +1,74 @@
 package br.com.heimdall.repository;
 
 import br.com.heimdall.model.DefaultEntity;
+import org.eclipse.persistence.exceptions.OptimisticLockException;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceException;
+import javax.persistence.Query;
+import java.util.List;
 
-public class Repository<T extends DefaultEntity<T>> {
-    private EntityManager em;
+public class Repository<T extends DefaultEntity<? super T>> {
 
-    public Repository(EntityManager em) {
-        this.em = em;
+    private final EntityManager entityManager;
+    private final Class<T> c;
+
+    public Repository(EntityManager em, Class<T> classe) {
+        this.entityManager = em;
+        this.c = classe;
     }
 
-    protected EntityManager getEntityManager() {
-        return em;
+    public EntityManager getEntityManager() {
+        return entityManager;
     }
 
-    public T save(T entity) {
-        return getEntityManager().merge(entity);
+    public T find(Integer id) {
+        return entityManager.getReference(c, id);
     }
 
-    public void remove(T entity) {
-        getEntityManager().remove(entity);
+
+    @SuppressWarnings("unchecked")
+    public List<T> find(String jpql) {
+        return entityManager.createQuery(jpql).getResultList();
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<Object> findSQL(Query query) {
+        return query.getResultList();
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<T> find(Query query) {
+        return query.getResultList();
+    }
+
+    @SuppressWarnings("unchecked")
+    public Object findSingleResult(Query query) {
+
+        return query.getSingleResult();
+    }
+
+    public T findSingleResultW(Query query, Class<T> tClass) {
+        T object = (T) query.getSingleResult();
+        return object;
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<T> list() {
+        return entityManager.createQuery("select e from " + c.getName() + " e order by e.id").getResultList();
+    }
+
+    public T save(T t) throws javax.persistence.OptimisticLockException {
+        try {
+            return entityManager.merge(t);
+        } catch (PersistenceException e) {
+            if (e.getCause() instanceof OptimisticLockException)
+                throw new javax.persistence.OptimisticLockException();
+        }
+        return t;
+    }
+
+    public void remove(T t) {
+        entityManager.remove(t);
     }
 }

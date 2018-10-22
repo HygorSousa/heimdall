@@ -3,45 +3,53 @@ package br.com.heimdall.controller;
 import br.com.heimdall.application.Util;
 import br.com.heimdall.factory.JPAFactory;
 import br.com.heimdall.model.DefaultEntity;
-import br.com.heimdall.repository.Repository;
+import br.com.heimdall.repository.DefaultRepository;
 
 import javax.persistence.EntityManager;
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
 
 public abstract class Controller<T extends DefaultEntity<T>> implements Serializable {
 
     protected T entity = null;
     private EntityManager em = null;
+    private Class<T> clazz;
 
     public abstract void limpar();
 
     public T incluir() {
-        Repository<T> repository = new Repository<T>(getEntityManager());
+        DefaultRepository<T> repository = getRepository(getEntityManager());
         getEntityManager().getTransaction().begin();
-        T result = repository.save(getEntity());
+        T result = repository.salvar(getEntity());
         getEntityManager().getTransaction().commit();
         limpar();
-        Util.addInfoMessage("InclusÃ£o realizada com sucesso!");
+        Util.addInfoMessage("Inclusão realizada com sucesso!");
         return result;
     }
 
     public T alterar() {
-        Repository<T> repository = new Repository<T>(getEntityManager());
+        DefaultRepository<T> repository = getRepository(getEntityManager());
+
         getEntityManager().getTransaction().begin();
-        T result = repository.save(getEntity());
+
+        T result = repository.salvar(getEntity());
+
         getEntityManager().getTransaction().commit();
         limpar();
-        Util.addInfoMessage("AlteraÃ§Ã£o realizada com sucesso!");
+        Util.addInfoMessage("Alteração realizada com sucesso!");
         return result;
     }
 
     public void remover() {
-        Repository<T> repository = new Repository<T>(getEntityManager());
+        DefaultRepository<T> repository = getRepository(getEntityManager());
+
         getEntityManager().getTransaction().begin();
-        repository.remove(getEntity());
+
+        repository.remover(getEntity());
+
         getEntityManager().getTransaction().commit();
         limpar();
-        Util.addInfoMessage("RemoÃ§Ã£o realizada com sucesso!");
+        Util.addInfoMessage("Remoção realizada com sucesso!");
     }
 
     public abstract T getEntity();
@@ -54,5 +62,17 @@ public abstract class Controller<T extends DefaultEntity<T>> implements Serializ
         if (em == null)
             em = JPAFactory.getEntityManager();
         return em;
+    }
+
+    protected DefaultRepository<T> getRepository(EntityManager em) {
+        try {
+            return (DefaultRepository<T>) Class.forName(entity.getClass().getName().replace("model", "repository") + "Repository")
+                    .getConstructor(EntityManager.class).newInstance(em);
+        } catch (InstantiationException | IllegalAccessException
+                | ClassNotFoundException | NoSuchMethodException | SecurityException | IllegalArgumentException | InvocationTargetException e) {
+            System.out.println("Não existe um repositório (repository) para o modelo " + getEntity().getClass().getName());
+            e.printStackTrace();
+        }
+        return null;
     }
 }

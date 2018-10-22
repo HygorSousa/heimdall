@@ -1,6 +1,10 @@
 package br.com.heimdall.model;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import java.util.Objects;
 
 @Entity
 public class Curso extends DefaultEntity<Curso> {
@@ -11,9 +15,7 @@ public class Curso extends DefaultEntity<Curso> {
 
     private String nome;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "iddisciplina", nullable = false)
-    private Disciplina disciplina;
+    private String logo;
 
     @Override
     public Integer getId() {
@@ -33,11 +35,26 @@ public class Curso extends DefaultEntity<Curso> {
         this.nome = nome;
     }
 
-    public Disciplina getDisciplina() {
-        return disciplina;
+    public String getLogo() {
+        return logo;
     }
 
-    public void setDisciplina(Disciplina disciplina) {
-        this.disciplina = disciplina;
+    public void setLogo(String logo) {
+        this.logo = logo;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Curso)) return false;
+        Curso curso = (Curso) o;
+        return Objects.equals(id, curso.id) &&
+                Objects.equals(nome, curso.nome) &&
+                Objects.equals(logo, curso.logo);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, nome, logo);
     }
 }

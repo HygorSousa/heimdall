@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+    <title>Heimdall</title>
+    <h:outputStylesheet library="webjars" name="font-awesome/4.7.0/css/font-awesome.css"/>
+    <h:outputStylesheet name="css/styleSheetTemplate.css"/>
+    <h:outputStylesheet name="css/styleSheet.css"/>
+    <h:outputScript name="js/admintemplate.js"/>
+</h:head>
+
+<h:body id="dialogBody">
+    <div class="titleDialog">
+        <h3>
+            <ui:insert name="titulo">Sistema Administrativo</ui:insert>
+        </h3>
+        <ui:insert name="closeButton">
+            <p:commandLink styleClass="ui-icon ui-icon-closethick closeButtonDialog"
+                           actionListener="#{disciplinaListController.onSelect(null)}"/>
+        </ui:insert>
+    </div>
+
+    <div id="wrapper" class="OvAuto ModalContent">
+        <div id="wrapperIndent" class="ui-fluid">
+            <p:blockUI block="dialogBody" trigger=":form:dataTable"/>
+            <p:blockUI block="dialogBody" trigger="closeButton"/>
+            <ui:insert name="conteudoCorpo">
+                Template
+            </ui:insert>
+            <p:growl id="msgs" showDetail="true" showSummary="false" sticky="true"/>
+        </div>
+    </div>
+</h:body>
+</html>

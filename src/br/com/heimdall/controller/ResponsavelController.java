@@ -1,5 +1,6 @@
 package br.com.heimdall.controller;
 
+import br.com.heimdall.factory.ResponsavelFactory;
 import br.com.heimdall.model.Responsavel;
 import br.com.heimdall.model.Telefone;
 
@@ -18,11 +19,22 @@ public class ResponsavelController extends Controller<Responsavel> {
     }
 
     @Override
+    public Responsavel incluir() {
+        getTelefone().setPessoa(getEntity().getPessoa());
+        getEntity().getPessoa().getListaTelefone().add(getTelefone());
+        return super.incluir();
+    }
+
+    @Override
     public Responsavel getEntity() {
-        return null;
+        if (entity == null)
+            entity = ResponsavelFactory.initialize();
+        return entity;
     }
 
     public Telefone getTelefone() {
+        if (telefone == null)
+            telefone = new Telefone();
         return telefone;
     }
 

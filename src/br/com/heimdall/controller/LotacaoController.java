@@ -1,13 +1,17 @@
 package br.com.heimdall.controller;
 
-import br.com.heimdall.model.Disciplina;
+import br.com.heimdall.factory.LotacaoFactory;
 import br.com.heimdall.model.Lotacao;
-import br.com.heimdall.model.Professor;
+import br.com.heimdall.model.MatrizCurricular;
+import br.com.heimdall.model.Responsavel;
 import br.com.heimdall.model.Sala;
+import br.com.heimdall.repository.MatrizCurricularRepository;
+import br.com.heimdall.repository.ResponsavelRepository;
+import br.com.heimdall.repository.SalaRepository;
 
+import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
-import java.util.ArrayList;
 import java.util.List;
 
 @Named
@@ -16,13 +20,20 @@ public class LotacaoController extends Controller<Lotacao> {
 
     private List<Sala> listaSalas;
 
-
-    public List<Disciplina> completeResponsavel() {
-        return new ArrayList<>();
+    @PostConstruct
+    public void init() {
+        SalaRepository repository = new SalaRepository(getEntityManager());
+        setListaSalas(repository.lista());
     }
 
-    public List<Professor> completeMatrizCurricular() {
-        return new ArrayList<>();
+    public List<Responsavel> completeResponsavel(String query) {
+        ResponsavelRepository repository = new ResponsavelRepository(getEntityManager());
+        return repository.buscarComplete(query, 5);
+    }
+
+    public List<MatrizCurricular> completeMatrizCurricular(String query) {
+        MatrizCurricularRepository repository = new MatrizCurricularRepository(getEntityManager());
+        return repository.buscarComplete(query, 5);
     }
 
     @Override
@@ -33,7 +44,7 @@ public class LotacaoController extends Controller<Lotacao> {
     @Override
     public Lotacao getEntity() {
         if (entity == null)
-            entity = new Lotacao();
+            entity = LotacaoFactory.initialize();
         return entity;
     }
 

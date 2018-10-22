@@ -11,8 +11,9 @@ public class Professor extends DefaultEntity<Professor> {
 
     private String matricula;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "idpessoa")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id")
+    @MapsId("id")
     private Pessoa pessoa;
 
     @Override

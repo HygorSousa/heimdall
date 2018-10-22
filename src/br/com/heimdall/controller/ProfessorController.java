@@ -1,5 +1,6 @@
 package br.com.heimdall.controller;
 
+import br.com.heimdall.factory.ProfessorFactory;
 import br.com.heimdall.model.Professor;
 import br.com.heimdall.model.Telefone;
 
@@ -13,16 +14,27 @@ public class ProfessorController extends Controller<Professor> {
     private Telefone telefone;
 
     @Override
+    public Professor incluir() {
+        getTelefone().setPessoa(getEntity().getPessoa());
+        getEntity().getPessoa().getListaTelefone().add(telefone);
+        return super.incluir();
+    }
+
+    @Override
     public void limpar() {
         setEntity(new Professor());
     }
 
     @Override
     public Professor getEntity() {
-        return null;
+        if (entity == null)
+            entity = ProfessorFactory.initialize();
+        return entity;
     }
 
     public Telefone getTelefone() {
+        if (telefone == null)
+            telefone = new Telefone();
         return telefone;
     }
 

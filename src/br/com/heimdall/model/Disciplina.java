@@ -1,7 +1,7 @@
 package br.com.heimdall.model;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Disciplina extends DefaultEntity<Disciplina> {
@@ -14,8 +14,9 @@ public class Disciplina extends DefaultEntity<Disciplina> {
 
     private Boolean ativo;
 
-    @ManyToMany(mappedBy = "curso")
-    private List<Curso> listaCursos;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idcurso")
+    private Curso curso;
 
     @Override
     public Integer getId() {
@@ -43,11 +44,27 @@ public class Disciplina extends DefaultEntity<Disciplina> {
         this.ativo = ativo;
     }
 
-    public List<Curso> getListaCursos() {
-        return listaCursos;
+    public Curso getCurso() {
+        return curso;
     }
 
-    public void setListaCursos(List<Curso> listaCursos) {
-        this.listaCursos = listaCursos;
+    public void setCurso(Curso curso) {
+        this.curso = curso;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Disciplina)) return false;
+        Disciplina that = (Disciplina) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(nome, that.nome) &&
+                Objects.equals(ativo, that.ativo) &&
+                Objects.equals(curso, that.curso);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, nome, ativo, curso);
     }
 }

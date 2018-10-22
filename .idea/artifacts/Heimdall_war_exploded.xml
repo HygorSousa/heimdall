@@ -18,7 +18,7 @@
           <element id="library" level="project" name="Maven: org.glassfish:javax.json:1.0.4" />
           <element id="library" level="project" name="Maven: org.eclipse.persistence:javax.persistence:2.1.1" />
           <element id="library" level="project" name="Maven: org.postgresql:postgresql:42.2.2" />
-          <element id="library" level="project" name="Maven: org.webjars:font-awesome:4.4.0" />
+          <element id="library" level="project" name="Maven: org.webjars:font-awesome:4.7.0" />
         </element>
       </element>
       <element id="directory" name="META-INF">
