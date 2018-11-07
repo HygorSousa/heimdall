@@ -9,7 +9,7 @@ public class MatrizCurricular extends DefaultEntity<MatrizCurricular> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private Integer quantidadeHoras;
+    private Integer cargaHoraria;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "idcurso")
@@ -37,12 +37,12 @@ public class MatrizCurricular extends DefaultEntity<MatrizCurricular> {
         this.id = id;
     }
 
-    public Integer getQuantidadeHoras() {
-        return quantidadeHoras;
+    public Integer getCargaHoraria() {
+        return cargaHoraria;
     }
 
-    public void setQuantidadeHoras(Integer quantidadeHoras) {
-        this.quantidadeHoras = quantidadeHoras;
+    public void setCargaHoraria(Integer cargaHoraria) {
+        this.cargaHoraria = cargaHoraria;
     }
 
     public Curso getCurso() {

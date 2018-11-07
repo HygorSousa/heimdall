@@ -7,94 +7,102 @@
 <ui:composition template="/template/template.xhtml">
     <ui:define name="conteudo">
         <div class="ui-g-12">
-            <p:panel styleClass="card no-border" toggleable="true"
-                     toggleSpeed="300">
-                <h:form id="formDados">
-                    <h1 class="text-center">.: Cadrastro de Matrizes :.</h1>
-                    <div style="text-align: left;"
-                         class="ui-fluid #{layoutMB.flat ? 'ui-flat':''} ">
-                        <p:panelGrid id="gridDados" columns="2"
-                                     columnClasses="ui-grid-col-6, ui-grid-col-6" layout="grid"
-                                     styleClass="ui-fluid card">
-                            <h:panelGroup>
-                                <div class="ui-material">
-                                    <p:autoComplete id="disciplinaAutoComplete" forceSelection="true"
-                                                    completeMethod="#{matrizCurricularController.completeDisciplina}"
-                                                    var="disciplina" itemLabel="#{disciplina.nome}"
-                                                    itemValue="#{disciplina}" converter="disciplinaConverter"
-                                                    dropdown="true" required="true"
-                                                    value="#{matrizCurricularController.entity.disciplina}">
-                                        <p:ajax update="disciplinaAutoComplete" event="query" global="false"/>
-                                        <p:ajax event="itemSelect" global="false" update="disciplinaAutoComplete"/>
-                                    </p:autoComplete>
-                                    <p:outputLabel for="disciplinaAutoComplete" value="Disciplina"/>
-                                </div>
-                            </h:panelGroup>
-                            <h:panelGroup>
-                                <div class="ui-material">
-                                    <p:inputText id="qntHorasInput" required="true"
-                                                 value="#{matrizCurricularController.entity.quantidadeHoras}"/>
-                                    <p:outputLabel for="qntHorasInput" value="Quantidade de Horas"/>
-                                </div>
-                            </h:panelGroup>
-                            <h:panelGroup>
-                                <div class="ui-material">
-                                    <p:inputText id="anoInput" required="true"
-                                                 value="#{matrizCurricularController.entity.semestre.ano}"/>
-                                    <p:outputLabel for="anoInput" value="Ano"/>
-                                </div>
-                            </h:panelGroup>
-                            <h:panelGroup>
-                                <div class="ui-material">
-                                    <p:selectOneMenu id="tipoSemestreSelect" required="true"
-                                                     value="#{matrizCurricularController.entity.semestre.tipoSemestre}">
-                                        <f:selectItems
-                                                value="#{matrizCurricularController.entity.semestre.tipoSemestreValues}"
-                                                var="tipo"
-                                                itemValue="#{tipo}"
-                                                itemLabel="#{tipo.label}"/>
-                                    </p:selectOneMenu>
-                                    <p:outputLabel value="Semestre" for="tipoSemestreSelect"/>
-                                </div>
-                            </h:panelGroup>
-                            <h:panelGroup>
-                                <div class="ui-material">
-                                    <p:autoComplete id="professorAutoComplete" forceSelection="true"
-                                                    completeMethod="#{matrizCurricularController.completeProfessor}"
-                                                    var="professor" itemLabel="#{professor.pessoa.nome}"
-                                                    itemValue="#{professor}" converter="professorConverter"
-                                                    dropdown="true" required="true"
-                                                    value="#{matrizCurricularController.entity.professor}">
-                                        <p:ajax update="professorAutoComplete" event="query" global="false"/>
-                                        <p:ajax event="itemSelect" global="false" update="professorAutoComplete"/>
-                                    </p:autoComplete>
-                                    <p:outputLabel for="professorAutoComplete" value="Professor"/>
-                                </div>
-                            </h:panelGroup>
+            <h:form id="formDados">
+                <h1>.: Matriz :.
+                    <p:commandButton id="btnPesquisar"
+                                     styleClass="btnAuto pull-right btn-fatal"
+                                     actionListener="#{matrizCurricularController.abrirListMatrizCurricular}"
+                                     value="Consultar Matrizes"
+                                     process="btnPesquisar" icon="fa fa-search">
+                        <p:ajax event="dialogReturn" update="formDados"/>
+                    </p:commandButton>
+                </h1>
+                <div style="text-align: left;"
+                     class="ui-fluid #{layoutMB.flat ? 'ui-flat':''} ">
+                    <p:panelGrid id="gridDados" columns="2"
+                                 columnClasses="ui-grid-col-6, ui-grid-col-6" layout="grid"
+                                 styleClass="ui-fluid card">
+                        <h:panelGroup>
+                            <div class="ui-material">
+                                <p:autoComplete id="disciplinaAutoComplete" forceSelection="true"
+                                                completeMethod="#{matrizCurricularController.completeDisciplina}"
+                                                var="disciplina" itemLabel="#{disciplina.nome}"
+                                                itemValue="#{disciplina}" converter="disciplinaConverter"
+                                                dropdown="true" required="true"
+                                                value="#{matrizCurricularController.entity.disciplina}">
+                                    <p:ajax update="disciplinaAutoComplete" event="query" global="false"/>
+                                    <p:ajax event="itemSelect" global="false" update="disciplinaAutoComplete"/>
+                                </p:autoComplete>
+                                <p:outputLabel for="disciplinaAutoComplete" value="Disciplina"/>
+                            </div>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <div class="ui-material">
+                                <p:inputText id="qntHorasInput" required="true"
+                                             value="#{matrizCurricularController.entity.cargaHoraria}"/>
+                                <p:outputLabel for="qntHorasInput" value="Carga Horária"/>
+                            </div>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <div class="ui-material">
+                                <p:inputText id="anoInput" required="true"
+                                             value="#{matrizCurricularController.entity.semestre.ano}"/>
+                                <p:outputLabel for="anoInput" value="Ano"/>
+                            </div>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <div class="ui-material">
+                                <p:selectOneMenu id="tipoSemestreSelect" required="true"
+                                                 value="#{matrizCurricularController.entity.semestre.tipoSemestre}">
+                                    <f:selectItems
+                                            value="#{matrizCurricularController.entity.semestre.tipoSemestreValues}"
+                                            var="tipo"
+                                            itemValue="#{tipo}"
+                                            itemLabel="#{tipo.label}"/>
+                                </p:selectOneMenu>
+                                <p:outputLabel value="Semestre" for="tipoSemestreSelect"/>
+                            </div>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <div class="ui-material">
+                                <p:autoComplete id="professorAutoComplete" forceSelection="true"
+                                                completeMethod="#{matrizCurricularController.completeProfessor}"
+                                                var="professor" itemLabel="#{professor.pessoa.nome}"
+                                                itemValue="#{professor}" converter="professorConverter"
+                                                dropdown="true" required="true"
+                                                value="#{matrizCurricularController.entity.professor}">
+                                    <p:ajax update="professorAutoComplete" event="query" global="false"/>
+                                    <p:ajax event="itemSelect" global="false" update="professorAutoComplete"/>
+                                </p:autoComplete>
+                                <p:outputLabel for="professorAutoComplete" value="Professor"/>
+                            </div>
+                        </h:panelGroup>
 
-                        </p:panelGrid>
-                        <div class="text-center ui-material">
-                            <p:commandButton id="btnIncluir"
-                                             value="Incluir" icon="fa fa-plus"
-                                             process="@this,gridDados" update="formDados, msgs"
-                                             styleClass="btnAuto btn-fatal"
-                                             actionListener="#{matrizCurricularController.incluir}"/>
-                            <p:commandButton value="Alterar" icon="fa fa-edit"
-                                             process="@this, gridDados" update="gridDados"
-                                             styleClass="btnAuto btn-fatal"
-                                             actionListener="#{matrizCurricularController.alterar}"/>
-                            <p:commandButton value="Excluir" icon="fa fa-remove"
-                                             process="@this, gridDados" update="gridDados"
-                                             styleClass="btnAuto btn-fatal"
-                                             actionListener="#{matrizCurricularController.remover}"/>
-                            <p:commandButton value="Limpar" icon="fa fa-eraser"
-                                             process="@this,gridDados" update="gridDados"
-                                             styleClass="btnAuto btn-fatal"
-                                             actionListener="#{matrizCurricularController.limpar}"/>
-                        </div>
+                    </p:panelGrid>
+                    <div class="text-center ui-material">
+                        <p:commandButton id="btnIncluir"
+                                         value="Incluir" icon="fa fa-plus"
+                                         process="@this,gridDados" update="formDados, msgs"
+                                         styleClass="btnAuto btn-fatal"
+                                         disabled="#{matrizCurricularController.entity.id != null}"
+                                         actionListener="#{matrizCurricularController.incluir}"/>
+                        <p:commandButton value="Alterar" icon="fa fa-edit"
+                                         process="@this, gridDados" update="gridDados"
+                                         styleClass="btnAuto btn-fatal"
+                                         disabled="#{matrizCurricularController.entity.id == null}"
+                                         actionListener="#{matrizCurricularController.alterar}"/>
+                        <p:commandButton value="Excluir" icon="fa fa-remove"
+                                         process="@this, gridDados" update="gridDados"
+                                         styleClass="btnAuto btn-fatal"
+                                         disabled="#{matrizCurricularController.entity.id == null}"
+                                         actionListener="#{matrizCurricularController.remover}"/>
+                        <p:commandButton value="Limpar" icon="fa fa-eraser"
+                                         process="@this,gridDados" update="gridDados"
+                                         styleClass="btnAuto btn-fatal"
+                                         actionListener="#{matrizCurricularController.limpar}"/>
                     </div>
-                </h:form>
-            </p:panel>
+                </div>
+            </h:form>
         </div>
     </ui:define>
 </ui:composition>

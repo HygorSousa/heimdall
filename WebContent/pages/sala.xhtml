@@ -6,110 +6,118 @@
                 template="/template/template.xhtml">
     <ui:define name="conteudo">
         <div class="ui-g-12">
-            <p:panel styleClass="card no-border" toggleable="true"
-                     toggleSpeed="300">
-                <h:form id="formDados">
-                    <h1 class="text-center">.: Cadrastro de Sala :.</h1>
-                    <div style="text-align: left;"
-                         class="ui-fluid #{layoutMB.flat ? 'ui-flat':''} no-border">
-                        <p:panelGrid id="gridDados" columns="2"
-                                     columnClasses="ui-grid-col-6, ui-grid-col-6" layout="grid"
-                                     styleClass="ui-fluid card no-border">
-                            <h:panelGroup>
-                                <div class="ui-material">
-                                    <p:inputText id="numeroInput" disabled="true"
-                                                 value="#{salaController.entity.numeroSala}"/>
-                                    <p:outputLabel value="Número da Sala" for="numeroInput"/>
-                                </div>
-                            </h:panelGroup>
+            <h:form id="formDados">
+                <h1>.: Sala :.
+                    <p:commandButton id="btnPesquisar"
+                                     styleClass="btnAuto pull-right btn-fatal"
+                                     actionListener="#{salaController.abrirListSala}"
+                                     value="Consultar Salas"
+                                     process="btnPesquisar" icon="fa fa-search">
+                        <p:ajax event="dialogReturn" update="formDados"/>
+                    </p:commandButton>
+                </h1>
+                <div style="text-align: left;"
+                     class="ui-fluid #{layoutMB.flat ? 'ui-flat':''} no-border">
+                    <p:panelGrid id="gridDados" columns="2"
+                                 columnClasses="ui-grid-col-6, ui-grid-col-6" layout="grid"
+                                 styleClass="ui-fluid card no-border">
+                        <h:panelGroup>
+                            <div class="ui-material">
+                                <p:inputText id="numeroInput" disabled="true"
+                                             value="#{salaController.entity.numeroSala}"/>
+                                <p:outputLabel value="Número da Sala" for="numeroInput"/>
+                            </div>
+                        </h:panelGroup>
 
-                            <h:panelGroup>
-                                <div class="ui-material">
-                                    <p:inputText id="descricaoInput" required="true"
-                                                 value="#{salaController.entity.descricao}"/>
-                                    <p:outputLabel value="Descrição" for="descricaoInput"/>
-                                </div>
-                            </h:panelGroup>
+                        <h:panelGroup>
+                            <div class="ui-material">
+                                <p:inputText id="descricaoInput" required="true"
+                                             value="#{salaController.entity.descricao}"/>
+                                <p:outputLabel value="Descrição" for="descricaoInput"/>
+                            </div>
+                        </h:panelGroup>
 
-                            <h:panelGroup>
-                                <div class="ui-material">
-                                    <p:selectOneMenu id="andarSelect" required="true"
-                                                     value="#{salaController.entity.andar}">
-                                        <f:selectItems
-                                                value="#{salaController.entity.andarValues}"
-                                                var="andar"
-                                                itemLabel="#{andar.label}"
-                                                itemValue="#{andar}"/>
-                                    </p:selectOneMenu>
-                                    <p:outputLabel value="Andar" for="andarSelect"/>
-                                </div>
-                            </h:panelGroup>
+                        <h:panelGroup>
+                            <div class="ui-material">
+                                <p:selectOneMenu id="andarSelect" required="true"
+                                                 value="#{salaController.entity.andar}">
+                                    <f:selectItems
+                                            value="#{salaController.entity.andarValues}"
+                                            var="andar"
+                                            itemLabel="#{andar.label}"
+                                            itemValue="#{andar}"/>
+                                </p:selectOneMenu>
+                                <p:outputLabel value="Andar" for="andarSelect"/>
+                            </div>
+                        </h:panelGroup>
 
-                            <h:panelGroup>
-                                <div class="ui-material">
-                                    <p:selectOneMenu id="blocoSelect" required="true"
-                                                     value="#{salaController.entity.bloco}">
-                                        <f:selectItems
-                                                value="#{salaController.entity.blocoValues}"
-                                                var="bloco"
-                                                itemLabel="#{bloco.label}"
-                                                itemValue="#{bloco}"/>
-                                    </p:selectOneMenu>
-                                    <p:outputLabel value="Bloco" for="blocoSelect"/>
-                                </div>
-                            </h:panelGroup>
+                        <h:panelGroup>
+                            <div class="ui-material">
+                                <p:selectOneMenu id="blocoSelect" required="true"
+                                                 value="#{salaController.entity.bloco}">
+                                    <f:selectItems
+                                            value="#{salaController.entity.blocoValues}"
+                                            var="bloco"
+                                            itemLabel="#{bloco.label}"
+                                            itemValue="#{bloco}"/>
+                                </p:selectOneMenu>
+                                <p:outputLabel value="Bloco" for="blocoSelect"/>
+                            </div>
+                        </h:panelGroup>
 
-                            <h:panelGroup>
-                                <div class="ui-material">
-                                    <p:selectOneMenu id="tipoSalaSelect" required="true"
-                                                     value="#{salaController.entity.tipoSala}">
-                                        <f:selectItems
-                                                value="#{salaController.entity.tipoSalaValues}"
-                                                var="tipo"
-                                                itemLabel="#{tipo.label}"
-                                                itemValue="#{tipo}"/>
-                                    </p:selectOneMenu>
-                                    <p:outputLabel value="Tipo da Sala" for="tipoSalaSelect"/>
-                                </div>
-                            </h:panelGroup>
+                        <h:panelGroup>
+                            <div class="ui-material">
+                                <p:selectOneMenu id="tipoSalaSelect" required="true"
+                                                 value="#{salaController.entity.tipoSala}">
+                                    <f:selectItems
+                                            value="#{salaController.entity.tipoSalaValues}"
+                                            var="tipo"
+                                            itemLabel="#{tipo.label}"
+                                            itemValue="#{tipo}"/>
+                                </p:selectOneMenu>
+                                <p:outputLabel value="Tipo da Sala" for="tipoSalaSelect"/>
+                            </div>
+                        </h:panelGroup>
 
-                            <h:panelGroup>
-                                <div class="ui-material">
-                                    <p:selectOneMenu id="statusSalaSelect" required="true"
-                                                     value="#{salaController.entity.statusSala}">
-                                        <f:selectItems
-                                                value="#{salaController.entity.statusSalaValues}"
-                                                var="status"
-                                                itemLabel="#{status.label}"
-                                                itemValue="#{status}"/>
-                                    </p:selectOneMenu>
-                                    <p:outputLabel value="Tipo da Sala" for="statusSalaSelect"/>
-                                </div>
-                            </h:panelGroup>
-                        </p:panelGrid>
+                        <h:panelGroup>
+                            <div class="ui-material">
+                                <p:selectOneMenu id="statusSalaSelect" required="true"
+                                                 value="#{salaController.entity.statusSala}">
+                                    <f:selectItems
+                                            value="#{salaController.entity.statusSalaValues}"
+                                            var="status"
+                                            itemLabel="#{status.label}"
+                                            itemValue="#{status}"/>
+                                </p:selectOneMenu>
+                                <p:outputLabel value="Tipo da Sala" for="statusSalaSelect"/>
+                            </div>
+                        </h:panelGroup>
+                    </p:panelGrid>
 
-                        <div class="text-center ui-material">
-                            <p:commandButton id="btnIncluir"
-                                             value="Incluir" icon="fa fa-plus"
-                                             process="@this,gridDados" update="formDados, msgs"
-                                             styleClass="btnAuto btn-fatal"
-                                             actionListener="#{salaController.incluir}"/>
-                            <p:commandButton value="Alterar" icon="fa fa-edit"
-                                             process="@this, gridDados" update="gridDados"
-                                             styleClass="btnAuto btn-fatal"
-                                             actionListener="#{salaController.alterar}"/>
-                            <p:commandButton value="Excluir" icon="fa fa-remove"
-                                             process="@this, gridDados" update="gridDados"
-                                             styleClass="btnAuto btn-fatal"
-                                             actionListener="#{salaController.remover}"/>
-                            <p:commandButton value="Limpar" icon="fa fa-eraser"
-                                             process="@this,gridDados" update="gridDados"
-                                             styleClass="btnAuto btn-fatal"
-                                             actionListener="#{salaController.limpar}"/>
-                        </div>
+                    <div class="text-center ui-material">
+                        <p:commandButton id="btnIncluir"
+                                         value="Incluir" icon="fa fa-plus"
+                                         process="@this,gridDados" update="formDados, msgs"
+                                         styleClass="btnAuto btn-fatal"
+                                         disabled="#{salaController.entity.id != null}"
+                                         actionListener="#{salaController.incluir}"/>
+                        <p:commandButton value="Alterar" icon="fa fa-edit"
+                                         process="@this, gridDados" update="gridDados"
+                                         styleClass="btnAuto btn-fatal"
+                                         disabled="#{salaController.entity.id == null}"
+                                         actionListener="#{salaController.alterar}"/>
+                        <p:commandButton value="Excluir" icon="fa fa-remove"
+                                         process="@this, gridDados" update="gridDados"
+                                         styleClass="btnAuto btn-fatal"
+                                         disabled="#{salaController.entity.id == null}"
+                                         actionListener="#{salaController.remover}"/>
+                        <p:commandButton value="Limpar" icon="fa fa-eraser"
+                                         process="@this,gridDados" update="gridDados"
+                                         styleClass="btnAuto btn-fatal"
+                                         actionListener="#{salaController.limpar}"/>
                     </div>
-                </h:form>
-            </p:panel>
+                </div>
+            </h:form>
         </div>
     </ui:define>
 </ui:composition>

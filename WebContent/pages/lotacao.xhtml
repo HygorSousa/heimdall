@@ -7,7 +7,15 @@
     <ui:define name="conteudo">
         <div class="ui-g-12 no-border">
             <h:form id="formDados">
-                <h1 class="text-center">.: Lotações de Salas :.</h1>
+                <h1>.: Lotações de Salas :.
+                    <p:commandButton id="btnPesquisar"
+                                     styleClass="btnAuto pull-right btn-fatal"
+                                     actionListener="#{lotacaoController.abrirListLotacao}"
+                                     value="Consultar Lotações"
+                                     process="btnPesquisar" icon="fa fa-search">
+                        <p:ajax event="dialogReturn" update="formDados"/>
+                    </p:commandButton>
+                </h1>
                 <div class="ui-fluid #{layoutMB.flat ? 'ui-flat':''} no-border">
                     <p:panelGrid id="gridDados" columns="2"
                                  columnClasses="ui-grid-col-6, ui-grid-col-6" layout="grid"
@@ -114,19 +122,23 @@
                             </div>
                         </h:panelGroup>
                     </p:panelGrid>
+
                     <div class="text-center ui-material">
                         <p:commandButton id="btnIncluir"
                                          value="Incluir" icon="fa fa-plus"
                                          process="@this,gridDados" update="formDados, msgs"
                                          styleClass="btnAuto btn-fatal"
+                                         disabled="#{lotacaoController.entity.id != null}"
                                          actionListener="#{lotacaoController.incluir}"/>
                         <p:commandButton value="Alterar" icon="fa fa-edit"
                                          process="@this, gridDados" update="gridDados"
                                          styleClass="btnAuto btn-fatal"
+                                         disabled="#{lotacaoController.entity.id == null}"
                                          actionListener="#{lotacaoController.alterar}"/>
                         <p:commandButton value="Excluir" icon="fa fa-remove"
                                          process="@this, gridDados" update="gridDados"
                                          styleClass="btnAuto btn-fatal"
+                                         disabled="#{lotacaoController.entity.id == null}"
                                          actionListener="#{lotacaoController.remover}"/>
                         <p:commandButton value="Limpar" icon="fa fa-eraser"
                                          process="@this,gridDados" update="gridDados"

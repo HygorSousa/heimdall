@@ -19,6 +19,11 @@ public class Pessoa extends DefaultEntity<Pessoa> {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "pessoa")
     private List<Telefone> listaTelefone;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id")
+    @MapsId("id")
+    private Usuario usuario;
+
     @Override
     public Integer getId() {
         return id;
@@ -59,5 +64,13 @@ public class Pessoa extends DefaultEntity<Pessoa> {
 
     public void setListaTelefone(List<Telefone> listaTelefone) {
         this.listaTelefone = listaTelefone;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 }

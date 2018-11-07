@@ -12,33 +12,44 @@
 </h:head>
 
 <h:body>
-    <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>
-
     <div class="wrapper">
         <div class="box header">
-            <h:graphicImage library="images" name="logo.png" height="45" styleClass="logo"/>
-            <h:graphicImage library="images" name="logo2.png" height="30" styleClass="logo"/>
+            <h:graphicImage library="images" name="logo.png" style="height: 4vh" styleClass="logo"/>
+            <h:graphicImage library="images" name="logo2.png" style="height: 3vh" styleClass="logo"/>
         </div>
 
         <div class="box sidebar">
             <ui:insert name="menu">
                 <h1 class="title">Menu</h1>
                 <h:form>
+                    <p:commandButton styleClass="btn-flat btn-warning"
+                                     value="Lotações de Salas"
+                                     icon="fa fa-map fa2x" process="@this"
+                                     actionListener="#{indexController.redirect('lotacao.xhtml')}"/>
+                    <br/>
+                    <p:commandButton styleClass="btn-flat btn-warning"
+                                     value="Salas" process="@this"
+                                     icon="fa fa-university fa2x"
+                                     actionListener="#{indexController.redirect('sala.xhtml')}"/>
+                    <br/>
 
-                    <h:commandLink value="Lotações de Salas"
-                                   action="lotacao.xhtml"/> <br/>
+                    <p:commandButton styleClass="btn-flat btn-warning"
+                                     value="Professor"
+                                     icon="fa fa-book fa2x" process="@this"
+                                     actionListener="#{indexController.redirect('professor.xhtml')}"/>
+                    <br/>
 
-                    <h:commandLink value="Cadastro de Salas"
-                                   action="sala.xhtml"/> <br/>
+                    <p:commandButton styleClass="btn-flat btn-warning"
+                                     value="Responsavel"
+                                     icon="fa fa-user fa2x" process="@this"
+                                     actionListener="#{indexController.redirect('responsavel.xhtml')}"/>
+                    <br/>
 
-                    <h:commandLink value="Cadastro de Professor"
-                                   action="professor.xhtml"/> <br/>
-
-                    <h:commandLink value="Cadastro de Responsável"
-                                   action="responsavel.xhtml"/> <br/>
-
-                    <h:commandLink value="Cadastro de Matriz"
-                                   action="matriz-curricular.xhtml"/> <br/>
+                    <p:commandButton styleClass="btn-flat btn-warning"
+                                     value="Matriz"
+                                     icon="fa fa-object-group fa2x" process="@this"
+                                     actionListener="#{indexController.redirect('matriz-curricular.xhtml')}"/>
+                    <br/>
                 </h:form>
             </ui:insert>
         </div>

@@ -1,6 +1,7 @@
 package br.com.heimdall.controller;
 
 import br.com.heimdall.factory.MatrizCurricularFactory;
+import br.com.heimdall.listController.MatrizCurricularListController;
 import br.com.heimdall.model.Disciplina;
 import br.com.heimdall.model.MatrizCurricular;
 import br.com.heimdall.model.Professor;
@@ -15,6 +16,10 @@ import java.util.List;
 @ViewScoped
 public class MatrizCurricularController extends Controller<MatrizCurricular> {
 
+    public void abrirListMatrizCurricular() {
+        MatrizCurricularListController list = new MatrizCurricularListController();
+        list.openList(this::setEntity);
+    }
 
     public List<Disciplina> completeDisciplina(String query) {
         DisciplinaRepository repository = new DisciplinaRepository(getEntityManager());

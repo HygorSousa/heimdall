@@ -1,7 +1,6 @@
 package br.com.heimdall.model;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 @Entity
 public class Disciplina extends DefaultEntity<Disciplina> {
@@ -52,19 +51,4 @@ public class Disciplina extends DefaultEntity<Disciplina> {
         this.curso = curso;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Disciplina)) return false;
-        Disciplina that = (Disciplina) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(nome, that.nome) &&
-                Objects.equals(ativo, that.ativo) &&
-                Objects.equals(curso, that.curso);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, nome, ativo, curso);
-    }
 }

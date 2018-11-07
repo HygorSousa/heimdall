@@ -10,11 +10,15 @@ import org.primefaces.event.SelectEvent;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
+import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.*;
 
 public abstract class ListController<T extends DefaultEntity<? super T>> implements Serializable {
+
+    private static final long serialVersionUID = 4636455606742837323L;
 
     protected EntityManager em;
     protected T entity;
@@ -27,6 +31,7 @@ public abstract class ListController<T extends DefaultEntity<? super T>> impleme
     private Boolean resizable;
     private Object contentHeight;
     private Object contentWidth;
+    protected String chave = "";
 
     public ListController(DefaultRepository<T> repository, Boolean modal, Boolean draggable, Boolean resizable, Object contentHeight, Object contentWidth, String xhtmlPageName) {
         this.modal = modal;
@@ -69,14 +74,18 @@ public abstract class ListController<T extends DefaultEntity<? super T>> impleme
 
         Map<String, List<String>> params = new HashMap<>();
         List<String> values = new ArrayList<>();
+        setChave(String.valueOf(this.hashCode()));
+        values.add(getChave());
         params.put("chave", values);
 
         PrimeFaces.current().dialog().openDynamic(listName, options, params);
+        getSessionScope().put(getChave(), this);
     }
 
     public void openList(SelectionListener<T> listener) {
         openList();
         this.listener = listener;
+        getSessionScope().put("listener", listener);
     }
 
     protected Map<String, Object> getSessionScope() {
@@ -86,20 +95,48 @@ public abstract class ListController<T extends DefaultEntity<? super T>> impleme
 
     protected void onSelect(T entity) {
         this.closeDialog(entity);
-        if (this.listener != null)
-            this.listener.select(entity);
+        if (this.listener == null) {
+            this.listener = (SelectionListener<T>) getSessionScope().get("listener");
+        }
+        this.listener.select(entity);
+    }
+
+    public void onLoad() throws IOException {
+        Object obj = getSessionScope().get(getChave());
+
+        if (obj == null) {
+            FacesContext.getCurrentInstance().getExternalContext().responseSendError(403, "Você não está autorizado a acessar esta página.");
+            return;
+        }
+
+        List<Field> fields = new ArrayList<>();
+        fields = getAllFields(fields, this.getClass());
+
+        for (Field field : fields) {
+            field.setAccessible(true);
+            try {
+                if (!Modifier.isFinal(field.getModifiers()))
+                    field.set(this, field.get(obj));
+            } catch (IllegalArgumentException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void closeDialog() {
+        this.limparChave();
         closeDialog(this.entity);
     }
 
     public void closeDialog(T entity) {
+        this.limparChave();
         PrimeFaces.current().dialog().closeDynamic(entity);
     }
 
-    public void closeDialog(List<T> listEntity) {
-        PrimeFaces.current().dialog().closeDynamic(listEntity);
+    public void limparChave() {
+        if (getChave() == null || !getSessionScope().containsKey(getChave()))
+            return;
+        getSessionScope().remove(getChave());
     }
 
     public void onRowSelect(SelectEvent event) {
@@ -107,7 +144,7 @@ public abstract class ListController<T extends DefaultEntity<? super T>> impleme
     }
 
     public void onSelectById(Integer id) {
-        T entity = null;
+        T entity;
         entity = repository.buscar(id);
         setEntity(entity);
         onSelect(entity);
@@ -123,5 +160,13 @@ public abstract class ListController<T extends DefaultEntity<? super T>> impleme
 
     public List<T> lista() {
         return repository.lista();
+    }
+
+    public String getChave() {
+        return chave;
+    }
+
+    public void setChave(String chave) {
+        this.chave = chave;
     }
 }

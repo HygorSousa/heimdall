@@ -1,36 +1,25 @@
 package br.com.heimdall.listController;
 
 import br.com.heimdall.factory.JPAFactory;
-import br.com.heimdall.model.Disciplina;
-import br.com.heimdall.repository.DisciplinaRepository;
+import br.com.heimdall.model.Professor;
+import br.com.heimdall.repository.ProfessorRepository;
 
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
-import java.util.List;
 
 @Named
 @ViewScoped
-public class ProfessorListController extends ListController<Disciplina> {
+public class ProfessorListController extends DefaultListController<Professor> {
 
-    private List<Disciplina> lista;
 
     public ProfessorListController() {
-        super(new DisciplinaRepository(JPAFactory.getEntityManager()),
-                true, false, false, 450, "95%", "/listings/listagemDisciplina");
+        super(new ProfessorRepository(JPAFactory.getEntityManager()),
+                true, false, false, 450, "95%", "/listings/listagemProfessor");
     }
 
     @Override
-    public Disciplina getEntity() {
-        return new Disciplina();
+    public Professor getEntity() {
+        return new Professor();
     }
 
-    public List<Disciplina> getLista() {
-        if (lista == null)
-            lista = lista();
-        return lista;
-    }
-
-    public void setLista(List<Disciplina> lista) {
-        this.lista = lista;
-    }
 }

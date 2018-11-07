@@ -22,11 +22,6 @@ body {
     height: unset !important;
 }
 
-/*noinspection ALL*/
-.wrapper:after {
-    height: -webkit-fill-available;
-}
-
 .wrapper {
     display: grid;
     grid-gap: 0;
@@ -64,12 +59,12 @@ body {
     color: #a87b00;
     background-color: rgb(92, 7, 0);
     text-align: center;
-    height: 60px;
+    height: 6vh;
 }
 
 .footer {
     background-color: white;
-    height: 30px;
+    height: 3vh;
     text-align: center;
     margin: auto !important;
     position: fixed;
@@ -83,6 +78,8 @@ body {
     background: #212121;
     color: white;
     padding-left: 10px;
+    padding-right: 10px;
+    height: 94vh;
 }
 
 .title {
@@ -97,4 +94,13 @@ body {
 a {
     color: #a87b00;
 
+}
+
+.ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-text-icon-left.btn-flat.btn-warning {
+    background-color: #f39c124a !important;
+    border-color: #f39c124a !important;
+    margin: 5px;
+    padding-right: 10px;
+    width: -webkit-fill-available;
+    font-size: large;
 }

@@ -17,6 +17,40 @@ public class ProfessorRepository extends DefaultRepository<Professor> {
         return Professor.class;
     }
 
+    @Override
+    public List<Object> buscarLazy(String search, Integer first, Integer pageSize, Integer lim) {
+        String colunas = " pro.id, pro.matricula, pes.nome ";
+        Query query = getEntityManager().createNativeQuery(
+                "select " + colunas +
+                        "from professor pro " +
+                        "inner join pessoa pes on pro.id = pes.id " +
+                        "where (" +
+                        "   pes.nome ilike ?1 or pes.cpf ilike ?1 or pro.matricula ilike ?1" +
+                        ") " +
+                        "order by pes.nome ");
+        query.setParameter(1, "%" + search + "%");
+
+        query.setFirstResult(first);
+        query.setMaxResults(pageSize);
+
+        return buscarSQL(query);
+    }
+
+    @Override
+    public Long buscarTodosRegistros(String search) {
+        String colunas = " count(1) as count ";
+        Query query = getEntityManager().createNativeQuery(
+                "select " + colunas +
+                        "from professor pro " +
+                        "inner join pessoa pes on pro.id = pes.id " +
+                        "where (" +
+                        "   pes.nome ilike ?1 or pes.cpf ilike ?1 or pro.matricula ilike ?1" +
+                        ") ");
+        query.setParameter(1, "%" + search + "%");
+
+        return (Long) buscarResultadoUnico(query);
+    }
+
 
     public List<Professor> buscarComplete(String search, Integer reg) {
         Query query = getEntityManager().createNativeQuery(

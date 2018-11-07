@@ -24,8 +24,11 @@ public class DisciplinaController extends Controller<Disciplina> {
     }
 
     public void abrirListDisciplina() {
-        DisciplinaListController listController = new DisciplinaListController();
-        listController.openList(this::setEntity);
+        DisciplinaListController list = new DisciplinaListController();
+        list.openList(entity -> {
+            setEntity(entity);
+            getEntity().setAtivo(false);
+        });
     }
 
     @Override

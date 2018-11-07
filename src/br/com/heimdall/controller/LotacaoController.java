@@ -1,6 +1,7 @@
 package br.com.heimdall.controller;
 
 import br.com.heimdall.factory.LotacaoFactory;
+import br.com.heimdall.listController.LotacaoListController;
 import br.com.heimdall.model.Lotacao;
 import br.com.heimdall.model.MatrizCurricular;
 import br.com.heimdall.model.Responsavel;
@@ -24,6 +25,11 @@ public class LotacaoController extends Controller<Lotacao> {
     public void init() {
         SalaRepository repository = new SalaRepository(getEntityManager());
         setListaSalas(repository.lista());
+    }
+
+    public void abrirListLotacao() {
+        LotacaoListController list = new LotacaoListController();
+        list.openList(this::setEntity);
     }
 
     public List<Responsavel> completeResponsavel(String query) {

@@ -1,6 +1,7 @@
 package br.com.heimdall.repository;
 
 import br.com.heimdall.model.DefaultEntity;
+import br.com.heimdall.util.ResultMapList;
 import org.eclipse.persistence.exceptions.DatabaseException;
 
 import javax.persistence.EntityManager;
@@ -8,6 +9,7 @@ import javax.persistence.OptimisticLockException;
 import javax.persistence.Query;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
+import java.util.Collections;
 import java.util.List;
 
 public abstract class DefaultRepository<T extends DefaultEntity<? super T>> {
@@ -27,6 +29,10 @@ public abstract class DefaultRepository<T extends DefaultEntity<? super T>> {
     }
 
     protected abstract Class<T> getModelClass();
+
+    public abstract List<Object> buscarLazy(String search, Integer first, Integer pageSize, Integer lim);
+
+    public abstract Long buscarTodosRegistros(String search);
 
     public Class<T> getClassModel() {
         return getModelClass();
@@ -56,13 +62,12 @@ public abstract class DefaultRepository<T extends DefaultEntity<? super T>> {
         return repository.find(query);
     }
 
-    public List<Object> buscarSQL(Query query, String colunas) {
-        return repository.findSQL(query);
-    }
-
-
     public List<Object> buscarSQL(Query query) {
-        return repository.findSQL(query);
+        List<Object> lista = repository.findSQL(query);
+        String colunas = query.toString().substring(query.toString().toLowerCase().lastIndexOf("select") + 6, query.toString().toLowerCase().indexOf("from"));
+        if (!lista.isEmpty())
+            return new ResultMapList(colunas, lista);
+        return Collections.emptyList();
     }
 
     public Object buscarResultadoUnico(Query query) {

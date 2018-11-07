@@ -1,17 +1,31 @@
 package br.com.heimdall.controller;
 
 import br.com.heimdall.factory.ResponsavelFactory;
+import br.com.heimdall.listController.ResponsavelListController;
+import br.com.heimdall.model.Professor;
 import br.com.heimdall.model.Responsavel;
 import br.com.heimdall.model.Telefone;
+import br.com.heimdall.repository.ProfessorRepository;
 
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import java.util.List;
 
 @Named
 @ViewScoped
 public class ResponsavelController extends Controller<Responsavel> {
 
     private Telefone telefone;
+
+    public void abrirListResponsavel() {
+        ResponsavelListController list = new ResponsavelListController();
+        list.openList(this::setEntity);
+    }
+
+    public List<Professor> completeProfessor(String query) {
+        ProfessorRepository repository = new ProfessorRepository(getEntityManager());
+        return repository.buscarComplete(query, 5);
+    }
 
     @Override
     public void limpar() {

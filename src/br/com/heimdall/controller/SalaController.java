@@ -1,5 +1,6 @@
 package br.com.heimdall.controller;
 
+import br.com.heimdall.listController.SalaListController;
 import br.com.heimdall.model.Sala;
 import br.com.heimdall.repository.SalaRepository;
 
@@ -9,6 +10,12 @@ import javax.inject.Named;
 @Named
 @ViewScoped
 public class SalaController extends Controller<Sala> {
+
+    public void abrirListSala() {
+        SalaListController list = new SalaListController();
+        list.openList(this::setEntity);
+    }
+
     @Override
     public void limpar() {
         setEntity(new Sala());

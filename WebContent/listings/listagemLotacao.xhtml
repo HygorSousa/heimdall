@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/template/templateListagem.xhtml">
+
+    <ui:define name="titulo"> Listagem das Lotações </ui:define>
+    <ui:define name="closeButton">
+        <p:commandLink id="closeButton"
+                       styleClass="ui-icon ui-icon-closethick closeButtonDialog"
+                       actionListener="#{lotacaoListController.closeDialog()}"/>
+    </ui:define>
+    <ui:define name="conteudoCorpo">
+        <f:metadata>
+            <f:viewParam name="chave" value="#{lotacaoListController.chave}"/>
+            <f:viewAction action="#{lotacaoListController.onLoad}"/>
+        </f:metadata>
+        <h:form id="form">
+            <p:focus context="form"/>
+            <p:dataTable id="dataTable" lazy="true"
+                         value="#{lotacaoListController.lazyModel}"
+                         emptyMessage="Nenhum registro encontrado" var="objeto"
+                         styleClass="lightTable" rowIndexVar="indice" rows="20"
+                         scrollRows="20" scrollHeight="290" liveScroll="true"
+                         scrollable="true" selectionMode="single">
+                <p:ajax event="rowSelect"
+                        listener="#{lotacaoListController.onRowSelect}"
+                />
+                <f:facet name="header">
+                    #{lotacaoListController.lazyModel.rowCount} registro(s) encontrado(s)
+                </f:facet>
+                <p:column styleClass="Wid5 text-center">
+                    <f:facet name="header">#</f:facet>
+                    <h:outputText value="#{indice + 1}"/>
+                </p:column>
+                <p:column styleClass="Wid20 text-center">
+                    <f:facet name="header">Sala</f:facet>
+                    <h:outputText value="#{lotacaoListController.getLabel(objeto.tiposala, objeto.numerosala)}"/>
+                </p:column>
+                <p:column styleClass="Wid40 text-center">
+                    <f:facet name="header">Responsável</f:facet>
+                    <h:outputText value="#{objeto.responsavel}"/>
+                </p:column>
+                <p:column styleClass="Wid15 text-center">
+                    <f:facet name="header">Horário de Início</f:facet>
+                    <h:outputText value="#{objeto.horarioinicio}">
+                        <f:convertDateTime pattern="hh:mm"/>
+                    </h:outputText>
+                </p:column>
+                <p:column styleClass="Wid20 text-center">
+                    <f:facet name="header">Qtd. Horas</f:facet>
+                    <h:outputText value="#{objeto.quantidadehoras} horas"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+</ui:composition>

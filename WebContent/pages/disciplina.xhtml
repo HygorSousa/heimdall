@@ -10,7 +10,7 @@
             <p:panel styleClass="card no-border" toggleable="true"
                      toggleSpeed="300">
                 <h:form id="formDados">
-                    <h1>.: Cadrastro de Disciplinas :.
+                    <h1>.: Disciplinas :.
                         <p:commandButton id="btnPesquisar"
                                          styleClass="btnAuto pull-right btn-fatal"
                                          actionListener="#{disciplinaController.abrirListDisciplina}"
@@ -64,14 +64,17 @@
                                              value="Incluir" icon="fa fa-plus"
                                              process="@this,gridDados" update="formDados, msgs"
                                              styleClass="btnAuto btn-fatal"
+                                             disabled="#{disciplinaController.entity.id != null}"
                                              actionListener="#{disciplinaController.incluir}"/>
                             <p:commandButton value="Alterar" icon="fa fa-edit"
                                              process="@this, gridDados" update="gridDados"
                                              styleClass="btnAuto btn-fatal"
+                                             disabled="#{disciplinaController.entity.id == null}"
                                              actionListener="#{disciplinaController.alterar}"/>
                             <p:commandButton value="Excluir" icon="fa fa-remove"
                                              process="@this, gridDados" update="gridDados"
                                              styleClass="btnAuto btn-fatal"
+                                             disabled="#{disciplinaController.entity.id == null}"
                                              actionListener="#{disciplinaController.remover}"/>
                             <p:commandButton value="Limpar" icon="fa fa-eraser"
                                              process="@this,gridDados" update="gridDados"

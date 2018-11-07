@@ -6,88 +6,92 @@
 <ui:composition template="/template/template.xhtml">
     <ui:define name="conteudo">
         <div class="ui-g-12">
-            <p:panel styleClass="card no-border" toggleable="true"
-                     toggleSpeed="300">
-                <h:form id="formDados">
+            <h:form id="formDados">
+                <h1>.: Professor :.
+                    <p:commandButton id="btnPesquisar"
+                                     styleClass="btnAuto pull-right btn-fatal"
+                                     actionListener="#{professorController.abrirListProfessor}"
+                                     value="Consultar Professores"
+                                     process="btnPesquisar" icon="fa fa-search">
+                        <p:ajax event="dialogReturn" update="formDados"/>
+                    </p:commandButton>
+                </h1>
+                <div style="text-align: left;"
+                     class="ui-fluid #{layoutMB.flat ? 'ui-flat':''} ">
+                    <p:panelGrid id="gridDados" columns="2"
+                                 columnClasses="ui-grid-col-6, ui-grid-col-6" layout="grid"
+                                 styleClass="ui-fluid card">
+                        <h:panelGroup>
+                            <div class="ui-material">
+                                <p:inputText id="nomeInput" required="true"
+                                             value="#{professorController.entity.pessoa.nome}"/>
+                                <p:outputLabel value="Nome" for="nomeInput"/>
+                            </div>
+                        </h:panelGroup>
 
-                    <h1 class="text-center">.: Cadrastro de Professores :.</h1>
-                    <div style="text-align: left;"
-                         class="ui-fluid #{layoutMB.flat ? 'ui-flat':''} ">
-                        <p:panelGrid id="gridDados" columns="2"
-                                     columnClasses="ui-grid-col-6, ui-grid-col-6" layout="grid"
-                                     styleClass="ui-fluid card">
-                            <h:panelGroup>
-                                <div class="ui-material">
-                                    <p:inputText id="nomeInput" required="true"
-                                                 value="#{professorController.entity.pessoa.nome}"/>
-                                    <p:outputLabel value="Nome" for="nomeInput"/>
-                                </div>
-                            </h:panelGroup>
+                        <h:panelGroup>
+                            <div class="ui-material">
+                                <p:inputMask id="cpfInput" required="true" mask="999.999.999-99"
+                                             value="#{professorController.entity.pessoa.cpf}"/>
+                                <p:outputLabel value="CPF" for="cpfInput"/>
+                            </div>
+                        </h:panelGroup>
 
-                            <h:panelGroup>
-                                <div class="ui-material">
-                                    <p:inputMask id="cpfInput" required="true" mask="999.999.999-99"
-                                                 value="#{professorController.entity.pessoa.cpf}"/>
-                                    <p:outputLabel value="CPF" for="cpfInput"/>
-                                </div>
-                            </h:panelGroup>
+                        <h:panelGroup>
+                            <div class="ui-material">
+                                <p:inputText id="matriculaInput" required="true"
+                                             value="#{professorController.entity.matricula}"/>
+                                <p:outputLabel value="Matricula" for="matriculaInput"/>
+                            </div>
+                        </h:panelGroup>
 
-                            <h:panelGroup>
-                                <div class="ui-material">
-                                    <p:inputText id="matriculaInput" required="true"
-                                                 value="#{professorController.entity.matricula}"/>
-                                    <p:outputLabel value="Matricula" for="matriculaInput"/>
-                                </div>
-                            </h:panelGroup>
+                        <h:panelGroup>
+                            <div class="ui-material">
+                                <p:inputText id="emailInput" required="true" type="email"
+                                             value="#{professorController.entity.pessoa.email}"/>
+                                <p:outputLabel value="Email" for="emailInput"/>
+                            </div>
+                        </h:panelGroup>
 
-                            <h:panelGroup>
-                                <div class="ui-material">
-                                    <p:inputText id="emailInput" required="true" type="email"
-                                                 value="#{professorController.entity.pessoa.email}"/>
-                                    <p:outputLabel value="Email" for="emailInput"/>
-                                </div>
-                            </h:panelGroup>
+                        <h:panelGroup>
+                            <div class="ui-material">
+                                <p:inputMask id="codigoAreaInput" required="true" mask="99"
+                                             value="#{professorController.telefone.codigoArea}"/>
+                                <p:outputLabel value="Código de Área" for="emailInput"/>
+                            </div>
 
-                            <h:panelGroup>
-                                <div class="ui-material">
-                                    <p:inputMask id="codigoAreaInput" required="true" mask="99"
-                                                 value="#{professorController.telefone.codigoArea}"/>
-                                    <p:outputLabel value="Código de Área" for="emailInput"/>
-                                </div>
+                        </h:panelGroup>
 
-                            </h:panelGroup>
+                        <h:panelGroup>
+                            <div class="ui-material">
+                                <p:inputMask id="telefoneInput" required="true" mask="9?9999-9999"
+                                             value="#{professorController.telefone.numero}"/>
+                                <p:outputLabel value="Telefone" for="telefoneInput"/>
+                            </div>
+                        </h:panelGroup>
+                    </p:panelGrid>
 
-                            <h:panelGroup>
-                                <div class="ui-material">
-                                    <p:inputMask id="telefoneInput" required="true" mask="9?9999-9999"
-                                                 value="#{professorController.telefone.numero}"/>
-                                    <p:outputLabel value="Telefone" for="telefoneInput"/>
-                                </div>
-                            </h:panelGroup>
-                        </p:panelGrid>
-
-                        <div class="text-center ui-material">
-                            <p:commandButton id="btnIncluir"
-                                             value="Incluir" icon="fa fa-plus"
-                                             process="@this,gridDados" update="formDados, msgs"
-                                             styleClass="btnAuto btn-fatal"
-                                             actionListener="#{professorController.incluir}"/>
-                            <p:commandButton value="Alterar" icon="fa fa-edit"
-                                             process="@this, gridDados" update="gridDados"
-                                             styleClass="btnAuto btn-fatal"
-                                             actionListener="#{professorController.alterar}"/>
-                            <p:commandButton value="Excluir" icon="fa fa-remove"
-                                             process="@this, gridDados" update="gridDados"
-                                             styleClass="btnAuto btn-fatal"
-                                             actionListener="#{professorController.remover}"/>
-                            <p:commandButton value="Limpar" icon="fa fa-eraser"
-                                             process="@this,gridDados" update="gridDados"
-                                             styleClass="btnAuto btn-fatal"
-                                             actionListener="#{professorController.limpar}"/>
-                        </div>
+                    <div class="text-center ui-material">
+                        <p:commandButton id="btnIncluir"
+                                         value="Incluir" icon="fa fa-plus"
+                                         process="@this,gridDados" update="formDados, msgs"
+                                         styleClass="btnAuto btn-fatal"
+                                         actionListener="#{professorController.incluir}"/>
+                        <p:commandButton value="Alterar" icon="fa fa-edit"
+                                         process="@this, gridDados" update="gridDados"
+                                         styleClass="btnAuto btn-fatal"
+                                         actionListener="#{professorController.alterar}"/>
+                        <p:commandButton value="Excluir" icon="fa fa-remove"
+                                         process="@this, gridDados" update="gridDados"
+                                         styleClass="btnAuto btn-fatal"
+                                         actionListener="#{professorController.remover}"/>
+                        <p:commandButton value="Limpar" icon="fa fa-eraser"
+                                         process="@this,gridDados" update="gridDados"
+                                         styleClass="btnAuto btn-fatal"
+                                         actionListener="#{professorController.limpar}"/>
                     </div>
-                </h:form>
-            </p:panel>
+                </div>
+            </h:form>
         </div>
     </ui:define>
 </ui:composition>
