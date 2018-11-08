@@ -6,7 +6,6 @@ import javax.persistence.*;
 public class Responsavel extends DefaultEntity<Responsavel> {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private boolean isProfessor;
@@ -18,7 +17,7 @@ public class Responsavel extends DefaultEntity<Responsavel> {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "idprofessor")
-    private Professor professor;
+    private Professor professorResponsavel;
 
     @Override
     public Integer getId() {
@@ -46,11 +45,11 @@ public class Responsavel extends DefaultEntity<Responsavel> {
         this.pessoa = pessoa;
     }
 
-    public Professor getProfessor() {
-        return professor;
+    public Professor getProfessorResponsavel() {
+        return professorResponsavel;
     }
 
-    public void setProfessor(Professor professor) {
-        this.professor = professor;
+    public void setProfessorResponsavel(Professor professorResponsavel) {
+        this.professorResponsavel = professorResponsavel;
     }
 }

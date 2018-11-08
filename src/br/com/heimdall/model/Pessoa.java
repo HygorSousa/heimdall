@@ -19,9 +19,8 @@ public class Pessoa extends DefaultEntity<Pessoa> {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "pessoa")
     private List<Telefone> listaTelefone;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id")
-    @MapsId("id")
+    @OneToOne(mappedBy = "pessoa", cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY, optional = false)
     private Usuario usuario;
 
     @Override

@@ -6,14 +6,14 @@
                 template="/template/template.xhtml">
     <ui:define name="conteudo">
         <div class="ui-g-12">
-            <h:form id="formDados">
+            <h:form id="form">
                 <h1>.: Responsável :.
                     <p:commandButton id="btnPesquisar"
                                      styleClass="btnAuto pull-right btn-fatal"
                                      actionListener="#{responsavelController.abrirListResponsavel}"
                                      value="Consultar Responsáveis"
                                      process="btnPesquisar" icon="fa fa-search">
-                        <p:ajax event="dialogReturn" update="formDados"/>
+                        <p:ajax event="dialogReturn" update="form"/>
                     </p:commandButton>
                 </h1>
                 <div style="text-align: left;"
@@ -21,7 +21,6 @@
                     <p:panelGrid id="gridProfessor" columns="2"
                                  columnClasses="ui-grid-col-6, ui-grid-col-6" layout="grid"
                                  styleClass="ui-fluid card">
-                        <p:outputLabel value=""/>
                         <h:panelGroup>
                             <div class="ui-material">
                                 <p:selectOneMenu id="isprofessor"
@@ -33,19 +32,19 @@
                                 <p:outputLabel for="isprofessor" value="O responsável é um professor? "/>
                             </div>
                         </h:panelGroup>
+
                         <h:panelGroup rendered="#{responsavelController.entity.professor}">
                             <div class="ui-material">
-                                <p:autoComplete id="professorAutoComplete" forceSelection="true"
+                                <p:autoComplete id="professorAutoComplete"
                                                 completeMethod="#{responsavelController.completeProfessor}"
-                                                var="professor"
-                                                itemLabel="#{professor.matricula} - #{professor.pessoa.nome}"
-                                                itemValue="#{professor}"
+                                                var="professor" itemLabel="#{professor}" itemValue="#{professor}"
                                                 dropdown="true" required="#{responsavelController.entity.professor}"
-                                                value="#{responsavelController.entity.professor.matricula}">
+                                                value="#{responsavelController.entity.professorResponsavel}">
                                     <p:ajax update="professorAutoComplete" event="query" global="false"/>
-                                    <p:ajax event="itemSelect" global="false" update="professorAutoComplete"/>
+                                    <p:ajax event="itemSelect" global="false"
+                                            update="professorAutoComplete, responsavel"/>
                                 </p:autoComplete>
-                                <p:outputLabel for="matrizAutoComplete" value="Disciplina"/>
+                                <p:outputLabel for="professorAutoComplete" value="Professor"/>
                             </div>
                         </h:panelGroup>
 
@@ -55,10 +54,21 @@
                         <p:panelGrid id="gridDadosPessoa" columns="2"
                                      columnClasses="ui-grid-col-6, ui-grid-col-6" layout="grid"
                                      styleClass="ui-fluid card">
+
+                            <h:panelGroup rendered="#{responsavelController.entity.professor}">
+                                <div class="ui-material">
+                                    <p:inputText id="matriculaInput" required="true"
+                                                 disabled="#{responsavelController.entity.professor}"
+                                                 value="#{responsavelController.entity.professorResponsavel.matricula}"/>
+                                    <p:outputLabel value="Matrícula" for="matriculaInput"/>
+                                </div>
+                            </h:panelGroup>
+
                             <h:panelGroup>
                                 <div class="ui-material">
                                     <p:inputText id="nomeInput" required="true"
-                                                 value="#{responsavelController.entity.pessoa.nome}"/>
+                                                 disabled="#{responsavelController.entity.professor}"
+                                                 value="#{responsavelController.entity.professor ? responsavelController.entity.professorResponsavel.pessoa.nome : responsavelController.entity.pessoa.nome}"/>
                                     <p:outputLabel value="Nome" for="nomeInput"/>
                                 </div>
                             </h:panelGroup>
@@ -66,7 +76,8 @@
                             <h:panelGroup>
                                 <div class="ui-material">
                                     <p:inputText id="cpfInput" required="true" mask="999.999.999-99"
-                                                 value="#{responsavelController.entity.pessoa.cpf}"/>
+                                                 disabled="#{responsavelController.entity.professor}"
+                                                 value="#{responsavelController.entity.professor ? responsavelController.entity.professorResponsavel.pessoa.cpf : responsavelController.entity.pessoa.cpf}"/>
                                     <p:outputLabel value="CPF" for="cpfInput"/>
                                 </div>
                             </h:panelGroup>
@@ -74,7 +85,8 @@
                             <h:panelGroup>
                                 <div class="ui-material">
                                     <p:inputText id="emailInput" required="true" type="email"
-                                                 value="#{responsavelController.entity.pessoa.email}"/>
+                                                 disabled="#{responsavelController.entity.professor}"
+                                                 value="#{responsavelController.entity.professor ? responsavelController.entity.professorResponsavel.pessoa.email : responsavelController.entity.pessoa.email}"/>
                                     <p:outputLabel value="Email" for="emailInput"/>
                                 </div>
                             </h:panelGroup>
@@ -82,6 +94,7 @@
                             <h:panelGroup>
                                 <div class="ui-material">
                                     <p:inputMask id="codigoAreaInput" required="true" mask="99"
+                                                 disabled="#{responsavelController.entity.professor}"
                                                  value="#{responsavelController.telefone.codigoArea}"/>
                                     <p:outputLabel value="Código de Área" for="emailInput"/>
                                 </div>
@@ -90,6 +103,7 @@
                             <h:panelGroup>
                                 <div class="ui-material">
                                     <p:inputMask id="telefoneInput" required="true" mask="9?9999-9999"
+                                                 disabled="#{responsavelController.entity.professor}"
                                                  value="#{responsavelController.telefone.numero}"/>
                                     <p:outputLabel value="Telefone" for="telefoneInput"/>
                                 </div>
@@ -100,22 +114,22 @@
                     <div class="text-center ui-material">
                         <p:commandButton id="btnIncluir"
                                          value="Incluir" icon="fa fa-plus"
-                                         process="@this,gridDados" update="formDados, msgs"
+                                         process="@this,form" update="form, msgs"
                                          styleClass="btnAuto btn-fatal"
                                          disabled="#{responsavelController.entity.id != null}"
                                          actionListener="#{responsavelController.incluir}"/>
                         <p:commandButton value="Alterar" icon="fa fa-edit"
-                                         process="@this, gridDados" update="gridDados"
+                                         process="@this, form" update="form"
                                          styleClass="btnAuto btn-fatal"
                                          disabled="#{responsavelController.entity.id == null}"
                                          actionListener="#{responsavelController.alterar}"/>
                         <p:commandButton value="Excluir" icon="fa fa-remove"
-                                         process="@this, gridDados" update="gridDados"
+                                         process="@this, form" update="form"
                                          styleClass="btnAuto btn-fatal"
                                          disabled="#{responsavelController.entity.id == null}"
                                          actionListener="#{responsavelController.remover}"/>
                         <p:commandButton value="Limpar" icon="fa fa-eraser"
-                                         process="@this,gridDados" update="gridDados"
+                                         process="@this,form" update="form"
                                          styleClass="btnAuto btn-fatal"
                                          actionListener="#{responsavelController.limpar}"/>
                     </div>

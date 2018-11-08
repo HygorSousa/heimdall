@@ -7,7 +7,7 @@
 <ui:composition template="/template/template.xhtml">
     <ui:define name="conteudo">
         <div class="ui-g-12">
-            <h:form id="formDados">
+            <h:form id="form">
                 <h1>.: Matriz :.
                     <p:commandButton id="btnPesquisar"
                                      styleClass="btnAuto pull-right btn-fatal"
@@ -68,7 +68,7 @@
                                 <p:autoComplete id="professorAutoComplete" forceSelection="true"
                                                 completeMethod="#{matrizCurricularController.completeProfessor}"
                                                 var="professor" itemLabel="#{professor.pessoa.nome}"
-                                                itemValue="#{professor}" converter="professorConverter"
+                                                itemValue="#{professor}"
                                                 dropdown="true" required="true"
                                                 value="#{matrizCurricularController.entity.professor}">
                                     <p:ajax update="professorAutoComplete" event="query" global="false"/>
@@ -82,22 +82,22 @@
                     <div class="text-center ui-material">
                         <p:commandButton id="btnIncluir"
                                          value="Incluir" icon="fa fa-plus"
-                                         process="@this,gridDados" update="formDados, msgs"
+                                         process="@this,form" update="form, msgs"
                                          styleClass="btnAuto btn-fatal"
                                          disabled="#{matrizCurricularController.entity.id != null}"
                                          actionListener="#{matrizCurricularController.incluir}"/>
                         <p:commandButton value="Alterar" icon="fa fa-edit"
-                                         process="@this, gridDados" update="gridDados"
+                                         process="@this, form" update="form"
                                          styleClass="btnAuto btn-fatal"
                                          disabled="#{matrizCurricularController.entity.id == null}"
                                          actionListener="#{matrizCurricularController.alterar}"/>
                         <p:commandButton value="Excluir" icon="fa fa-remove"
-                                         process="@this, gridDados" update="gridDados"
+                                         process="@this, form" update="form"
                                          styleClass="btnAuto btn-fatal"
                                          disabled="#{matrizCurricularController.entity.id == null}"
                                          actionListener="#{matrizCurricularController.remover}"/>
                         <p:commandButton value="Limpar" icon="fa fa-eraser"
-                                         process="@this,gridDados" update="gridDados"
+                                         process="@this,form" update="form"
                                          styleClass="btnAuto btn-fatal"
                                          actionListener="#{matrizCurricularController.limpar}"/>
                     </div>

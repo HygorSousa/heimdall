@@ -6,14 +6,13 @@ import javax.persistence.*;
 public class Professor extends DefaultEntity<Professor> {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String matricula;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id")
     @MapsId("id")
+    @JoinColumn(name = "id")
+    @OneToOne(fetch = FetchType.LAZY)
     private Pessoa pessoa;
 
     @Override
@@ -40,5 +39,12 @@ public class Professor extends DefaultEntity<Professor> {
 
     public void setPessoa(Pessoa pessoa) {
         this.pessoa = pessoa;
+    }
+
+    @Override
+    public String toString() {
+        if (this.matricula != null && this.getPessoa().getNome() != null)
+            return this.matricula.concat(" - ").concat(this.getPessoa().getNome());
+        return "";
     }
 }

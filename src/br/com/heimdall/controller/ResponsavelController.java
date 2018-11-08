@@ -34,6 +34,11 @@ public class ResponsavelController extends Controller<Responsavel> {
 
     @Override
     public Responsavel incluir() {
+        if (getEntity().isProfessor()) {
+            getEntity().setPessoa(getEntity().getProfessorResponsavel().getPessoa());
+            return super.incluir();
+        }
+
         getTelefone().setPessoa(getEntity().getPessoa());
         getEntity().getPessoa().getListaTelefone().add(getTelefone());
         return super.incluir();

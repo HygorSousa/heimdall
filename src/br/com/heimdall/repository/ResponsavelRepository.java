@@ -19,7 +19,7 @@ public class ResponsavelRepository extends DefaultRepository<Responsavel> {
 
     @Override
     public List<Object> buscarLazy(String search, Integer first, Integer pageSize, Integer lim) {
-        String colunas = " pro.id, pes.cpf, pes.nome ";
+        String colunas = " res.id, pes.cpf, pes.nome ";
         Query query = getEntityManager().createNativeQuery(
                 "select " + colunas +
                         "from responsavel res " +

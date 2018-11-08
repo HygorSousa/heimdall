@@ -21,9 +21,9 @@ public class ProfessorController extends Controller<Professor> {
 
     @Override
     public Professor incluir() {
+        getEntity().getPessoa().getUsuario().setPessoa(getEntity().getPessoa());
         getTelefone().setPessoa(getEntity().getPessoa());
         getEntity().getPessoa().getListaTelefone().add(telefone);
-        getEntity().getPessoa().getUsuario().setLogin(getEntity().getPessoa().getEmail());
         return super.incluir();
     }
 

@@ -1,20 +1,21 @@
 package br.com.heimdall.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Usuario extends DefaultEntity<Usuario> {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String login;
 
     private String senha;
+
+    @MapsId("id")
+    @JoinColumn(name = "id")
+    @OneToOne(fetch = FetchType.LAZY)
+    private Pessoa pessoa;
 
     @Override
     public Integer getId() {
@@ -42,4 +43,11 @@ public class Usuario extends DefaultEntity<Usuario> {
         this.senha = senha;
     }
 
+    public Pessoa getPessoa() {
+        return pessoa;
+    }
+
+    public void setPessoa(Pessoa pessoa) {
+        this.pessoa = pessoa;
+    }
 }
