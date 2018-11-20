@@ -13,4 +13,12 @@ public class IndexController implements Serializable {
     public void redirect(String redirect) {
         Util.redirect(redirect);
     }
+
+    public void login() {
+        Util.redirect("login.xhtml");
+    }
+
+    public void mapa() {
+        Util.redirect("mapa.xhtml");
+    }
 }

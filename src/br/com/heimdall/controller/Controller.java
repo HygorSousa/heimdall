@@ -6,10 +6,9 @@ import br.com.heimdall.model.DefaultEntity;
 import br.com.heimdall.repository.DefaultRepository;
 
 import javax.persistence.EntityManager;
-import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 
-public abstract class Controller<T extends DefaultEntity<T>> implements Serializable {
+public abstract class Controller<T extends DefaultEntity<T>> extends DefaultController {
 
     protected T entity = null;
     private EntityManager em = null;

@@ -4,9 +4,6 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:p="http://primefaces.org/ui"
                 template="/template/templateIndex.xhtml">
     <ui:define name="conteudo">
-        <style type="text/css">
-
-        </style>
         <div class="ui-g-12">
             <h:form id="formDados">
 
@@ -17,11 +14,13 @@
                 <br/>
                 <p:outputPanel style="display: flex; justify-content: space-evenly;">
                     <p:commandButton styleClass="btn-warning btn-lg"
+                                     actionListener="#{indexController.login}"
                                      value="Login" id="btn-login"
                                      style="width: auto"
-                                     icon="fa fa-unlock"/>
+                                     icon="fa fa-unlock fa-fw"/>
 
                     <p:commandButton styleClass="btn-warning btn-lg"
+                                     actionListener="#{indexController.mapa}"
                                      value="Mapa das Salas" id="btn-map"
                                      style="width: auto"
                                      icon="fa fa-map"/>

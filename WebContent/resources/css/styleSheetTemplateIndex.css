@@ -60,6 +60,7 @@ body {
 
 .content {
     justify-content: center;
+    height: 90vh;
 }
 
 .footer {
@@ -75,11 +76,18 @@ body {
 }
 
 .logo {
-    margin-left: 20px;
-    height: 4vh !important;
+    height: 50vh;
+}
+
+.logo30 {
+    height: 30vh;
 }
 
 a {
     color: #a87b00;
 
+}
+
+.hold-transition.login-page {
+    background-color: rgb(92, 7, 0);
 }
