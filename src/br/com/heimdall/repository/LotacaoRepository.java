@@ -52,5 +52,16 @@ public class LotacaoRepository extends DefaultRepository<Lotacao> {
         return (Long) buscarResultadoUnico(query);
     }
 
+    public String buscarDisciplinaSala(Integer sala) {
+        Query query = getEntityManager().createQuery(
+                "select " +
+                        "lot.proposito.matrizCurricular.disciplina.nome " +
+                        "from Lotacao lot " +
+                        "where lot.sala.id = ?1 and " +
+                        "CURRENT_DATE between lot.dataEntrada and lot.dataSaida and " +
+                        "current_time > lot.horarioInicio ", Lotacao.class);
+        query.setParameter(1, sala);
 
+        return (String) buscarResultadoUnico(query);
+    }
 }

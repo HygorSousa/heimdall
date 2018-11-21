@@ -23,7 +23,8 @@
                         <h:panelGroup>
                             <div class="ui-material">
                                 <p:selectOneMenu id="salaSelect" required="true"
-                                                 value="#{lotacaoController.entity.sala}">
+                                                 value="#{lotacaoController.entity.sala}"
+                                                 converter="salaConverter">
                                     <f:selectItems
                                             value="#{lotacaoController.listaSalas}"
                                             var="sala"
@@ -113,7 +114,7 @@
                                                 var="matriz"
                                                 itemLabel="#{matriz.disciplina.nome} - #{matriz.professor.pessoa.nome}"
                                                 itemValue="#{matriz}"
-                                                dropdown="true" required="true"
+                                                dropdown="true" required="true" converter="matrizCurricularConverter"
                                                 value="#{lotacaoController.entity.proposito.matrizCurricular}">
                                     <p:ajax update="matrizAutoComplete" event="query" global="false"/>
                                     <p:ajax event="itemSelect" global="false" update="matrizAutoComplete"/>

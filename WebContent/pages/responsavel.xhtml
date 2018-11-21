@@ -27,7 +27,8 @@
                                                  value="#{responsavelController.entity.professor}">
                                     <f:selectItem itemLabel="Sim" itemValue="#{true}"/>
                                     <f:selectItem itemLabel="Não" itemValue="#{false}"/>
-                                    <p:ajax event="itemSelect" update="gridProfessor" process="isprofessor"/>
+                                    <p:ajax event="itemSelect" update="gridProfessor, responsavel"
+                                            process="isprofessor"/>
                                 </p:selectOneMenu>
                                 <p:outputLabel for="isprofessor" value="O responsável é um professor? "/>
                             </div>
@@ -38,7 +39,8 @@
                                 <p:autoComplete id="professorAutoComplete"
                                                 completeMethod="#{responsavelController.completeProfessor}"
                                                 var="professor" itemLabel="#{professor}" itemValue="#{professor}"
-                                                dropdown="true" required="#{responsavelController.entity.professor}"
+                                                dropdown="true"
+                                                required="#{responsavelController.entity.professor ? 'true' : 'false'}"
                                                 value="#{responsavelController.entity.professorResponsavel}">
                                     <p:ajax update="professorAutoComplete" event="query" global="false"/>
                                     <p:ajax event="itemSelect" global="false"
@@ -53,11 +55,13 @@
                     <p:outputPanel id="responsavel">
                         <p:panelGrid id="gridDadosPessoa" columns="2"
                                      columnClasses="ui-grid-col-6, ui-grid-col-6" layout="grid"
-                                     styleClass="ui-fluid card">
+                                     styleClass="ui-fluid card"
+                                     rendered="#{responsavelController.entity.professor ? 'false' : 'true'}">
 
                             <h:panelGroup rendered="#{responsavelController.entity.professor}">
                                 <div class="ui-material">
-                                    <p:inputText id="matriculaInput" required="true"
+                                    <p:inputText id="matriculaInput"
+                                                 required="#{responsavelController.entity.professor ? 'false' : 'true'}"
                                                  disabled="#{responsavelController.entity.professor}"
                                                  value="#{responsavelController.entity.professorResponsavel.matricula}"/>
                                     <p:outputLabel value="Matrícula" for="matriculaInput"/>
@@ -66,34 +70,38 @@
 
                             <h:panelGroup>
                                 <div class="ui-material">
-                                    <p:inputText id="nomeInput" required="true"
+                                    <p:inputText id="nomeInput"
+                                                 required="#{responsavelController.entity.professor ? 'false' : 'true'}"
                                                  disabled="#{responsavelController.entity.professor}"
-                                                 value="#{responsavelController.entity.professor ? responsavelController.entity.professorResponsavel.pessoa.nome : responsavelController.entity.pessoa.nome}"/>
+                                                 value="#{responsavelController.entity.pessoa.nome}"/>
                                     <p:outputLabel value="Nome" for="nomeInput"/>
                                 </div>
                             </h:panelGroup>
 
                             <h:panelGroup>
                                 <div class="ui-material">
-                                    <p:inputText id="cpfInput" required="true" mask="999.999.999-99"
+                                    <p:inputText id="cpfInput" mask="999.999.999-99"
+                                                 required="#{responsavelController.entity.professor ? 'false' : 'true'}"
                                                  disabled="#{responsavelController.entity.professor}"
-                                                 value="#{responsavelController.entity.professor ? responsavelController.entity.professorResponsavel.pessoa.cpf : responsavelController.entity.pessoa.cpf}"/>
+                                                 value="#{responsavelController.entity.pessoa.cpf}"/>
                                     <p:outputLabel value="CPF" for="cpfInput"/>
                                 </div>
                             </h:panelGroup>
 
                             <h:panelGroup>
                                 <div class="ui-material">
-                                    <p:inputText id="emailInput" required="true" type="email"
+                                    <p:inputText id="emailInput" type="email"
+                                                 required="#{responsavelController.entity.professor ? 'false' : 'true'}"
                                                  disabled="#{responsavelController.entity.professor}"
-                                                 value="#{responsavelController.entity.professor ? responsavelController.entity.professorResponsavel.pessoa.email : responsavelController.entity.pessoa.email}"/>
+                                                 value="#{responsavelController.entity.pessoa.email}"/>
                                     <p:outputLabel value="Email" for="emailInput"/>
                                 </div>
                             </h:panelGroup>
 
                             <h:panelGroup>
                                 <div class="ui-material">
-                                    <p:inputMask id="codigoAreaInput" required="true" mask="99"
+                                    <p:inputMask id="codigoAreaInput" mask="99"
+                                                 required="#{responsavelController.entity.professor ? 'false' : 'true'}"
                                                  disabled="#{responsavelController.entity.professor}"
                                                  value="#{responsavelController.telefone.codigoArea}"/>
                                     <p:outputLabel value="Código de Área" for="emailInput"/>
@@ -102,7 +110,8 @@
 
                             <h:panelGroup>
                                 <div class="ui-material">
-                                    <p:inputMask id="telefoneInput" required="true" mask="9?9999-9999"
+                                    <p:inputMask id="telefoneInput" mask="9?9999-9999"
+                                                 required="#{responsavelController.entity.professor ? 'false' : 'true'}"
                                                  disabled="#{responsavelController.entity.professor}"
                                                  value="#{responsavelController.telefone.numero}"/>
                                     <p:outputLabel value="Telefone" for="telefoneInput"/>

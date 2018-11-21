@@ -14,7 +14,7 @@
                                      actionListener="#{matrizCurricularController.abrirListMatrizCurricular}"
                                      value="Consultar Matrizes"
                                      process="btnPesquisar" icon="fa fa-search">
-                        <p:ajax event="dialogReturn" update="formDados"/>
+                        <p:ajax event="dialogReturn" update="form"/>
                     </p:commandButton>
                 </h1>
                 <div style="text-align: left;"
@@ -68,7 +68,7 @@
                                 <p:autoComplete id="professorAutoComplete" forceSelection="true"
                                                 completeMethod="#{matrizCurricularController.completeProfessor}"
                                                 var="professor" itemLabel="#{professor.pessoa.nome}"
-                                                itemValue="#{professor}"
+                                                itemValue="#{professor}" converter="professorConverter"
                                                 dropdown="true" required="true"
                                                 value="#{matrizCurricularController.entity.professor}">
                                     <p:ajax update="professorAutoComplete" event="query" global="false"/>

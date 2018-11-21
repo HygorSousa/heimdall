@@ -20,9 +20,9 @@
 
                             <p:panel header="#{sala.tipoSala.label} - #{sala.numeroSala}" style="text-align:center">
                                 <h:panelGrid columns="1" style="width:100%; text-align: center">
-                                    <i class="fa fa-laptop fa-5x"></i>
+                                    <i class="fa fa-laptop fa-5x"/>
+                                    <h:outputText value="#{mapaController.buscaDisciplinaSala(sala)}"/>
                                     <br/>
-                                    <h:outputText value="#{mapaController.buscaDisciplinaSala()}"/>
                                     <p:commandButton id="btn-dialog" style="width: auto" type="button"
                                                      icon="fa fa-search" styleClass="btn-fatal btn-xs"
                                                      onclick="PF('infoSala').show();"/>
