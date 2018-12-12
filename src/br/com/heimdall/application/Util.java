@@ -80,5 +80,9 @@ public class Util {
         return "Erro ao encriptar";
     }
 
+    public static String encryptPassword(String value) {
+        return Util.encrypt(Util.encrypt(value.substring(value.length() - 6)));
+    }
+
 
 }

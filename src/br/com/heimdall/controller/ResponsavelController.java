@@ -1,5 +1,6 @@
 package br.com.heimdall.controller;
 
+import br.com.heimdall.application.Util;
 import br.com.heimdall.factory.ResponsavelFactory;
 import br.com.heimdall.listController.ResponsavelListController;
 import br.com.heimdall.model.Professor;
@@ -7,6 +8,7 @@ import br.com.heimdall.model.Responsavel;
 import br.com.heimdall.model.Telefone;
 import br.com.heimdall.repository.ProfessorRepository;
 
+import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import java.util.List;
@@ -16,6 +18,11 @@ import java.util.List;
 public class ResponsavelController extends Controller<Responsavel> {
 
     private Telefone telefone;
+
+    @PostConstruct
+    public void init() {
+        getEntity().getPessoa().getUsuario().setPessoa(getEntity().getPessoa());
+    }
 
     public void abrirListResponsavel() {
         ResponsavelListController list = new ResponsavelListController();
@@ -38,6 +45,9 @@ public class ResponsavelController extends Controller<Responsavel> {
             getEntity().setPessoa(getEntity().getProfessorResponsavel().getPessoa());
             return super.incluir();
         }
+
+        getEntity().getPessoa().getUsuario().setLogin(getEntity().getPessoa().getEmail());
+        getEntity().getPessoa().getUsuario().setSenha(Util.encryptPassword(getEntity().getPessoa().getCpf()));
 
         getTelefone().setPessoa(getEntity().getPessoa());
         getEntity().getPessoa().getListaTelefone().add(getTelefone());

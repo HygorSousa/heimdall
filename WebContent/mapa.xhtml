@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/template/templateMapa.xhtml">
+    <ui:define name="conteudo">
+        <div class="ui-g-12">
+            <p:panel styleClass="card no-border" toggleable="true"
+                     toggleSpeed="300">
+                <h1 class="text-center">.: Mapa de Salas :.</h1>
+                <h:form id="formDados">
+
+                    <div style="text-align: left;"
+                         class="ui-fluid #{layoutMB.flat ? 'ui-flat':''} no-border">
+
+                        <p:panelGrid id="gridDados" columns="6"
+                                     columnClasses="ui-grid-col-2, ui-grid-col-2, ui-grid-col-2,
+                                     ui-grid-col-2, ui-grid-col-2, ui-grid-col-2"
+                                     layout="grid" styleClass="ui-fluid card no-border">
+                            <h:panelGroup>
+                                <div class="ui-material">
+                                    <p:selectOneMenu id="cursoSelect" value="#{mapaController.curso}">
+                                        <f:selectItem itemLabel="Selecione um curso"/>
+                                        <f:selectItems
+                                                value="#{mapaController.listCurso}"
+                                                var="curso" itemValue="#{curso.id}" itemLabel="#{curso.nome}"/>
+                                        <p:ajax event="itemSelect" process="@this" update="mapagrid"
+                                                listener="#{mapaController.filtrar}"/>
+                                    </p:selectOneMenu>
+                                    <p:outputLabel value="Curso" for="cursoSelect"/>
+                                </div>
+                            </h:panelGroup>
+
+                            <h:panelGroup>
+                                <div class="ui-material">
+                                    <p:selectOneMenu id="blocoSelect" value="#{mapaController.bloco}">
+                                        <f:selectItem itemLabel="Selecione um bloco"/>
+                                        <f:selectItems
+                                                value="#{mapaController.blocoValues}"
+                                                var="bloco" itemValue="#{bloco.valor}" itemLabel="#{bloco.label}"/>
+                                        <p:ajax event="itemSelect" process="@this" update="mapagrid"
+                                                listener="#{mapaController.filtrar}"/>
+                                    </p:selectOneMenu>
+                                    <p:outputLabel value="Bloco" for="blocoSelect"/>
+                                </div>
+                            </h:panelGroup>
+
+                            <h:panelGroup>
+                                <div class="ui-material">
+                                    <p:selectOneMenu id="diaSelect" value="#{mapaController.diaSemana}">
+                                        <f:selectItem itemLabel="Selecione um dia da semana"/>
+                                        <f:selectItems
+                                                value="#{mapaController.diaSemanaValues}"
+                                                var="dia" itemValue="#{dia.valor}" itemLabel="#{dia.label}"/>
+                                        <p:ajax event="itemSelect" process="@this" update="mapagrid"
+                                                listener="#{mapaController.filtrar}"/>
+                                    </p:selectOneMenu>
+                                    <p:outputLabel value="Dia da Semana" for="diaSelect"/>
+                                </div>
+                            </h:panelGroup>
+                        </p:panelGrid>
+
+                        <p:outputPanel id="mapagrid">
+                            <p:dataGrid var="sala" value="#{mapaController.listSala}" columns="6"
+                                        layout="grid" rows="4"
+                                        paginator="true" paginatorPosition="bottom">
+
+                                <p:panel header="#{sala.tipoSala.label} - #{sala.numeroSala}" style="text-align:center">
+                                    <h:panelGrid columns="1" style="width:100%; text-align: center">
+                                        <i class="fa fa-laptop fa-5x"/>
+                                        <h:outputText value="#{mapaController.buscaDisciplinaSala(sala)}"/>
+                                        <br/>
+                                        <p:commandButton id="btn-dialog" style="width: auto" type="button"
+                                                         icon="fa fa-search" styleClass="btn-fatal btn-xs"
+                                                         onclick="PF('infoSala').show();"/>
+                                    </h:panelGrid>
+                                </p:panel>
+                            </p:dataGrid>
+                        </p:outputPanel>
+                    </div>
+                    <p:dialog header="Sala" widgetVar="infoSala" modal="true" height="100" appendTo="@(body)">
+                        <p><h:outputText escape="false" value="TESTANDO"/></p>
+                    </p:dialog>
+                </h:form>
+            </p:panel>
+        </div>
+    </ui:define>
+</ui:composition>

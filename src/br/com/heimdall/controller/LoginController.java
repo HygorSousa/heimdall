@@ -2,6 +2,7 @@ package br.com.heimdall.controller;
 
 import br.com.heimdall.application.Util;
 import br.com.heimdall.factory.JPAFactory;
+import br.com.heimdall.factory.UsuarioFactory;
 import br.com.heimdall.model.Usuario;
 import br.com.heimdall.repository.UsuarioRepository;
 
@@ -14,20 +15,22 @@ public class LoginController extends DefaultController {
 
     private Usuario usuario;
 
-    public String entrar() {
+    public void entrar() {
         UsuarioRepository repository = new UsuarioRepository(JPAFactory.getEntityManager());
         Usuario usuarioValidado = repository.buscarUsuarioLogar(getUsuario().getLogin(), getUsuario().getSenha());
 
         if (usuarioValidado == null) {
             Util.addErroMessage("Usuário ou Senha inválido.");
-            return null;
+            return;
         }
         setUsuarioLogado(usuarioValidado);
 
-        return "mapa.xhtml";
+        Util.redirect("pages/lotacao.xhtml");
     }
 
     public Usuario getUsuario() {
+        if (usuario == null)
+            usuario = UsuarioFactory.initialize();
         return usuario;
     }
 

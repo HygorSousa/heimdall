@@ -16,6 +16,8 @@
         <div class="box header">
             <h:graphicImage library="images" name="logo.png" style="height: 4vh" styleClass="logo"/>
             <h:graphicImage library="images" name="logo2.png" style="height: 3vh" styleClass="logo"/>
+            <p:commandButton value="Logout" styleClass="btnAuto profile-user-img btn-lg" style="margin-right: 1%; "
+                             process="@this" actionListener="#{indexController.logout()}"/>
         </div>
 
         <div class="box sidebar">
@@ -49,6 +51,24 @@
                                      value="Matriz"
                                      icon="fa fa-object-group fa2x" process="@this"
                                      actionListener="#{indexController.redirect('matriz-curricular.xhtml')}"/>
+                    <br/>
+
+                    <p:commandButton styleClass="btn-flat btn-warning"
+                                     value="Disciplina"
+                                     icon="fa fa-object-group fa2x" process="@this"
+                                     actionListener="#{indexController.redirect('disciplina.xhtml')}"/>
+                    <br/>
+
+                    <p:commandButton styleClass="btn-flat btn-warning"
+                                     value="Curso"
+                                     icon="fa fa-object-group fa2x" process="@this"
+                                     actionListener="#{indexController.redirect('curso.xhtml')}"/>
+                    <br/>
+
+                    <p:commandButton styleClass="btn-flat btn-warning"
+                                     value="Mapa"
+                                     icon="fa fa-object-group fa2x" process="@this"
+                                     actionListener="#{indexController.redirect('../mapa.xhtml')}"/>
                     <br/>
                 </h:form>
             </ui:insert>

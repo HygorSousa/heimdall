@@ -44,7 +44,6 @@ public class Repository<T extends DefaultEntity<? super T>> {
 
     @SuppressWarnings("unchecked")
     public Object findSingleResult(Query query) {
-
         return query.getSingleResult();
     }
 

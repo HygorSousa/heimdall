@@ -1,10 +1,13 @@
 package br.com.heimdall.model;
 
+import br.com.heimdall.application.Util;
+
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-public class Lotacao extends DefaultEntity<Lotacao> {
+public class
+Lotacao extends DefaultEntity<Lotacao> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,6 +23,8 @@ public class Lotacao extends DefaultEntity<Lotacao> {
     private Date horarioInicio;
 
     private Double quantidadeHoras;
+
+    private Integer diaSemana;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "idproposito")
@@ -75,6 +80,14 @@ public class Lotacao extends DefaultEntity<Lotacao> {
         this.quantidadeHoras = quantidadeHoras;
     }
 
+    public DiaSemana getDiaSemana() {
+        return Util.parseEnum(diaSemana, DiaSemana.class);
+    }
+
+    public void setDiaSemana(DiaSemana diaSemana) {
+        this.diaSemana = diaSemana.getValor();
+    }
+
     public Proposito getProposito() {
         return proposito;
     }
@@ -97,5 +110,9 @@ public class Lotacao extends DefaultEntity<Lotacao> {
 
     public void setSala(Sala sala) {
         this.sala = sala;
+    }
+
+    public DiaSemana[] getDiaSemanaValues() {
+        return DiaSemana.values();
     }
 }

@@ -1,5 +1,6 @@
 package br.com.heimdall.controller;
 
+import br.com.heimdall.application.Session;
 import br.com.heimdall.application.Util;
 
 import javax.faces.view.ViewScoped;
@@ -20,5 +21,10 @@ public class IndexController implements Serializable {
 
     public void mapa() {
         Util.redirect("mapa.xhtml");
+    }
+
+    public void logout() {
+        Session.getInstance().invalidateSession();
+        redirect("../mapa.xhtml");
     }
 }

@@ -1,10 +1,12 @@
 package br.com.heimdall.controller;
 
+import br.com.heimdall.application.Util;
 import br.com.heimdall.factory.ProfessorFactory;
 import br.com.heimdall.listController.ProfessorListController;
 import br.com.heimdall.model.Professor;
 import br.com.heimdall.model.Telefone;
 
+import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
@@ -14,6 +16,11 @@ public class ProfessorController extends Controller<Professor> {
 
     private Telefone telefone;
 
+    @PostConstruct
+    public void init() {
+        getEntity().getPessoa().getUsuario().setPessoa(getEntity().getPessoa());
+    }
+
     public void abrirListProfessor() {
         ProfessorListController list = new ProfessorListController();
         list.openList(this::setEntity);
@@ -21,9 +28,8 @@ public class ProfessorController extends Controller<Professor> {
 
     @Override
     public Professor incluir() {
-        getEntity().getPessoa().getUsuario().setPessoa(getEntity().getPessoa());
-        getTelefone().setPessoa(getEntity().getPessoa());
-        getEntity().getPessoa().getListaTelefone().add(telefone);
+        getEntity().getPessoa().getUsuario().setLogin(getEntity().getPessoa().getEmail());
+        getEntity().getPessoa().getUsuario().setSenha(Util.encryptPassword(getEntity().getPessoa().getCpf()));
         return super.incluir();
     }
 

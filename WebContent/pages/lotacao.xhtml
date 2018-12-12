@@ -69,6 +69,17 @@
                             </div>
                         </h:panelGroup>
                         <h:panelGroup>
+                            <div class="ui-material">
+                                <p:selectOneMenu id="diaSelect" required="true"
+                                                 value="#{lotacaoController.entity.diaSemana}">
+                                    <f:selectItems
+                                            value="#{lotacaoController.entity.diaSemanaValues}"
+                                            var="dia" itemValue="#{dia}" itemLabel="#{dia.label}"/>
+                                </p:selectOneMenu>
+                                <p:outputLabel value="Dia da Semana" for="diaSelect"/>
+                            </div>
+                        </h:panelGroup>
+                        <h:panelGroup>
                             <div class="ui-material icon-left">
                                 <p:calendar id="horaInicioInput" showOn="button" required="true"
                                             value="#{lotacaoController.entity.horarioInicio}"
